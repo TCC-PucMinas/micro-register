@@ -1,19 +1,8 @@
 package main
 
-import (
-	"fmt"
-
-	"github.com/TCC-PucMinas/micro-register/helpers"
-)
+import "fmt"
 
 func main() {
 
-	value, err := helpers.GenerateJwt("testando")
-
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	fmt.Println("access_token", value.AccessToken)
-	fmt.Println("refresh_token", value.RefreshToken)
+	fmt.Println("hello")
 }
