@@ -57,10 +57,9 @@ create table users (
 	FOREIGN KEY (address_id) REFERENCES addresses(id)
 );
 
-
 insert into users (phone, business, cpf_cnpj, email, `password`, first_name, last_name, address_id) values 
-	('8897613741', 'desenvolvedor', '03506838326', 'higordiegoti@gmail.com', '12345', 'higor', 'pinheiro', 1)
-
+	('8897613741', 'desenvolvedor', '03506838326', 'higordiegoti@gmail.com', '$2a$04$uxMOqH.TJ58FPe06EnqCHuqnLylq7emaDJ764joC.lxSla.Q0WOd6', 'higor', 'pinheiro', 1);
+    
 create table user_permissions(
     id int unsigned auto_increment primary key
     id_user int unsigned,
