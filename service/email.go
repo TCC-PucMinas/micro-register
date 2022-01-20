@@ -1,4 +1,4 @@
-package communicate
+package service
 
 type EmailCommunicate struct {
 	Subject string `json:"subject"`

@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+option go_package = "/communicate";
+
+message AuthenticateValidateRequest {
+  string email = 1;
+  string password = 2;
+}
+
+message AuthenticateValidateResponse {
+  string access_token = 1;
+  string refresh_token = 2;
+}
+
+service AuthenticateCommunicate {
+  rpc Authenticate (AuthenticateValidateRequest) returns (AuthenticateValidateResponse) {};
+}
