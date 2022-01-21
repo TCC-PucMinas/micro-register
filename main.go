@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"net"
-	"os"
 
 	"github.com/TCC-PucMinas/micro-register/communicate"
 	"google.golang.org/grpc"
@@ -11,7 +10,8 @@ import (
 
 func main() {
 
-	port := os.Getenv("PORT")
+	// port := os.Getenv("PORT")
+	port := 4000
 	host := fmt.Sprintf("0.0.0.0:%v", port)
 
 	listener, err := net.Listen("tcp", host)

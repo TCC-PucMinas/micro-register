@@ -18,11 +18,11 @@ create table menus (
     icon_menu varchar(100),
     url_menu varchar(100) not null,
 	`created_at` datetime default now(),
-	permission_id int unsigned not null,
-	FOREIGN KEY (permission_id) REFERENCES permissions(id)
+	id_permission int unsigned not null,
+	FOREIGN KEY (id_permission) REFERENCES permissions(id)
 );
 
-insert into menus (name, permission_id, icon_menu, url_menu) values
+insert into menus (name, id_permission, icon_menu, url_menu) values
 	('Novo Pedido', 1, 'bxs-truck', 'novoPedido'),
     ('Acompanhar', 1, 'bxs-map', 'acompanhamento'),
 	('Historico', 1, 'bxs-timer', 'historico'),
@@ -53,20 +53,24 @@ create table users (
     first_name varchar(255) not null,
     last_name varchar(255) not null,
     `created_at` datetime default now(),
-	address_id int unsigned not null,
-	FOREIGN KEY (address_id) REFERENCES addresses(id)
+	id_address int unsigned not null,
+	FOREIGN KEY (id_address) REFERENCES addresses(id)
 );
 
-insert into users (phone, business, cpf_cnpj, email, `password`, first_name, last_name, address_id) values 
+insert into users (phone, business, cpf_cnpj, email, `password`, first_name, last_name, id_address) values 
 	('8897613741', 'desenvolvedor', '03506838326', 'higordiegoti@gmail.com', '$2a$04$uxMOqH.TJ58FPe06EnqCHuqnLylq7emaDJ764joC.lxSla.Q0WOd6', 'higor', 'pinheiro', 1);
-    
+
 create table user_permissions(
-    id int unsigned auto_increment primary key
-    id_user int unsigned,
-    id_permission int unsigned,
-    `created_at` datetime default now(),
+    id int unsigned auto_increment primary key,
+    id_user int unsigned not null,
+    id_permission int unsigned not null,
+    created_at datetime default now(),
     FOREIGN KEY (id_user) REFERENCES users(id),
     FOREIGN KEY (id_permission) REFERENCES permissions(id)
 );
 
 insert into user_permissions (id_user, id_permission) values (1, 1);
+
+select p.id as id, p.name as name from permissions as p
+				inner join user_permissions as u on p.id = u.id_permission
+				where u.id_user = 1

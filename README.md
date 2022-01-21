@@ -3,7 +3,7 @@
 
 ## Generate
 ```sh
-$ protoc --go_out=paths=source_relative:../communicate -I. authenticate.proto
+$ protoc -I communicate/ communicate/authenticate.proto --go_out=plugins=grpc:communicate
 ```
 
 

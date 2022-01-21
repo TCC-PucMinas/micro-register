@@ -1,13 +1,14 @@
 package helpers
 
 import (
-	"os"
 	"time"
 
 	"github.com/golang-jwt/jwt"
 )
 
-var hmacSecret = []byte(os.Getenv("hmac_secret")) // []byte("e6428fcb1ea69f53bec5a2b4b817937b75db71d23207c6a6fb4b5cd2c9b9b43f")
+var hmacSecret = []byte("e6428fcb1ea69f53bec5a2b4b817937b75db71d23207c6a6fb4b5cd2c9b9b43f")
+
+// []byte(os.Getenv("hmac_secret")) //
 
 var timeToken = 60
 var timeRefresh = 1440

@@ -7,9 +7,30 @@ message AuthenticateValidateRequest {
   string password = 2;
 }
 
+message Roles {
+  string id = 1;
+  string name  = 2;
+}
+
+message Menus {
+  string id = 1;
+  string name = 2;
+  string icon_menu = 3;
+  string url_menu = 4;
+}
+
+message UserResponse {
+  string id = 1;
+  string name = 2;
+  string email = 3;
+  repeated Roles Roles = 4;
+  repeated Menus Menus = 5;
+}
+
 message AuthenticateValidateResponse {
   string access_token = 1;
   string refresh_token = 2;
+  UserResponse UserResponse = 3;
 }
 
 service AuthenticateCommunicate {
