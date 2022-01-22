@@ -81,3 +81,36 @@ func (s *Server) Authenticate(ctx context.Context, request *AuthenticateValidate
 	res.UserResponse = userResponse
 	return res, nil
 }
+
+func (s *Server) ValidateToken(ctx context.Context, request *TokenRequest) (*TokenResponse, error) {
+	res := &TokenResponse{}
+
+	if check, err := helpers.CheckJwt(request.AccessToken, 0); err != nil || !check {
+		return res, errors.New("Token invalid!")
+	}
+	res.Validate = true
+	return res, nil
+}
+
+func (s *Server) RefreshToken(ctx context.Context, request *RefreshRequest) (*RefreshResponse, error) {
+
+	res := &RefreshResponse{}
+
+	if validate, err := helpers.CheckJwt(request.RefreshToken, 1); !validate || (err != nil) {
+		return res, errors.New("Refresh token invalid!")
+	}
+
+	claim, err := helpers.ExtractJwt(request.RefreshToken)
+
+	if err != nil {
+		return res, err
+	}
+
+	if jwt, err := helpers.GenerateJwt(claim.Id); err != nil {
+		return res, err
+	} else {
+		res.AccessToken = jwt.AccessToken
+		res.RefreshToken = jwt.RefreshToken
+		return res, nil
+	}
+}

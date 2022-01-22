@@ -33,6 +33,26 @@ message AuthenticateValidateResponse {
   UserResponse UserResponse = 3;
 }
 
+message RefreshRequest {
+  string access_token = 1;
+  string refresh_token = 2;
+}
+
+message RefreshResponse {
+  string access_token = 1;
+  string refresh_token = 2;
+}
+
+message TokenRequest {
+  string access_token = 1;
+}
+
+message TokenResponse {
+  bool validate = 1;
+}
+
 service AuthenticateCommunicate {
   rpc Authenticate (AuthenticateValidateRequest) returns (AuthenticateValidateResponse) {};
+  rpc RefreshToken (RefreshRequest) returns (RefreshResponse) {};
+  rpc ValidateToken (TokenRequest) returns (TokenResponse) {};
 }
