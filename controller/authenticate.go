@@ -218,3 +218,18 @@ func (s *AuthenticateServer) ValidateForgotCode(ctx context.Context, request *co
 	res.Valid = true
 	return res, nil
 }
+
+func (s *AuthenticateServer) SetNewPasswordForgot(ctxt context.Context, request *communicate.NewPasswordForgotRequest) (*communicate.NewPasswordForgotResponse, error) {
+	res := &communicate.NewPasswordForgotResponse{}
+
+	user := model.User{}
+
+	user.Forgot = request.Forgot
+	if password, err := helpers.GenerateHashSalt(request.Password); err != nil {
+		return res, err
+	} else {
+		user.Password = password
+	}
+
+	return res, nil
+}

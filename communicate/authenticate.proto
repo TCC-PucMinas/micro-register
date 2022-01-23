@@ -61,7 +61,6 @@ message ForgotResponse {
 }
 
 message NewPasswordForgotRequest {
-  string email = 1;
   string password = 2;
   string forgot = 3;
 }
