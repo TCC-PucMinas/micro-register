@@ -231,5 +231,9 @@ func (s *AuthenticateServer) SetNewPasswordForgot(ctxt context.Context, request 
 		user.Password = password
 	}
 
+	if err := user.UpdateUserSetNewPasswordByForgot(); err != nil {
+		return res, errors.New("Error set password user!")
+	}
+
 	return res, nil
 }

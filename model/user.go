@@ -65,3 +65,23 @@ func (u *User) GetOneUserByForgotCode() error {
 
 	return nil
 }
+
+func (u *User) UpdateUserSetNewPasswordByForgot() error {
+	sql := db.ConnectDatabase()
+
+	query := "update users set password = ?, forgot = ? where forgot = ?"
+
+	updateHealthyCheck, err := sql.Prepare(query)
+
+	if err != nil {
+		return err
+	}
+
+	_, e := updateHealthyCheck.Exec(u.Password, u.Forgot, u.Forgot)
+
+	if e != nil {
+		return e
+	}
+
+	return nil
+}
