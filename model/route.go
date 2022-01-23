@@ -26,8 +26,6 @@ func (r *Route) GetOneRouteByPathAndUserId(id string) error {
 					join user_permissions as u on u.id_user = ?
 				where r.path = ? limit 1;`
 
-	log.Println("id", id)
-	log.Println("r.Path", r.Path)
 	requestConfig, err := sql.Query(query, id, r.Path)
 
 	if err != nil {

@@ -4,12 +4,16 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"log"
 	"strconv"
 
 	"github.com/TCC-PucMinas/micro-register/communicate"
 	"github.com/TCC-PucMinas/micro-register/helpers"
 	"github.com/TCC-PucMinas/micro-register/model"
+	"github.com/TCC-PucMinas/micro-register/service"
 )
+
+var senderNatsEmail = "email.user.forgot"
 
 type AuthenticateServer struct {
 	communicate.AuthenticateCommunicateServer
@@ -147,6 +151,55 @@ func (s *AuthenticateServer) ValidateEmail(ctx context.Context, request *communi
 	}
 
 	res.Valid = true
+
+	return res, nil
+}
+
+func (s *AuthenticateServer) ForgotPassword(ctx context.Context, request *communicate.ForgotRequest) (*communicate.ForgotResponse, error) {
+	res := &communicate.ForgotResponse{}
+
+	auth := model.Authenticate{
+		Email: request.Email,
+	}
+
+	user, err := auth.GetOneUserByEmail()
+
+	if err != nil {
+		return res, errors.New("Email not exist!")
+	}
+
+	token := fmt.Sprintf("%v - %v", request.Email, user.Id)
+
+	generate, err := helpers.GenerateHashSalt(token)
+
+	if err != nil {
+		return res, errors.New("Error generate hash password!")
+	}
+
+	user.Forgot = generate
+	if valid, err := user.UpdateUserForgotById(); err != nil || !valid {
+		log.Println("err", err)
+		log.Println("valid", valid)
+		return res, errors.New("Error update user set hash forgot!")
+	}
+
+	nats := service.Nats{}
+
+	if err := nats.Connect(); err != nil {
+		return res, errors.New("Error connect nats server...")
+	}
+
+	email := service.EmailCommunicate{}
+
+	email.Forgot = generate
+	email.From = user.Email
+	email.Subject = "Esqueceu sua senha ?"
+
+	if err := nats.PublishAlertEmail(senderNatsEmail, &email); err != nil {
+		return res, errors.New("Error communicate service alert!")
+	}
+
+	res.Sender = true
 
 	return res, nil
 }

@@ -574,6 +574,210 @@ func (x *EmailResponse) GetValid() bool {
 	return false
 }
 
+type ForgotRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Email string `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty"`
+}
+
+func (x *ForgotRequest) Reset() {
+	*x = ForgotRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_authenticate_proto_msgTypes[10]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ForgotRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ForgotRequest) ProtoMessage() {}
+
+func (x *ForgotRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_authenticate_proto_msgTypes[10]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ForgotRequest.ProtoReflect.Descriptor instead.
+func (*ForgotRequest) Descriptor() ([]byte, []int) {
+	return file_authenticate_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *ForgotRequest) GetEmail() string {
+	if x != nil {
+		return x.Email
+	}
+	return ""
+}
+
+type ForgotResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Sender bool `protobuf:"varint,1,opt,name=sender,proto3" json:"sender,omitempty"`
+}
+
+func (x *ForgotResponse) Reset() {
+	*x = ForgotResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_authenticate_proto_msgTypes[11]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ForgotResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ForgotResponse) ProtoMessage() {}
+
+func (x *ForgotResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_authenticate_proto_msgTypes[11]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ForgotResponse.ProtoReflect.Descriptor instead.
+func (*ForgotResponse) Descriptor() ([]byte, []int) {
+	return file_authenticate_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *ForgotResponse) GetSender() bool {
+	if x != nil {
+		return x.Sender
+	}
+	return false
+}
+
+type NewPasswordForgotRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Email    string `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty"`
+	Password string `protobuf:"bytes,2,opt,name=password,proto3" json:"password,omitempty"`
+	Forgot   string `protobuf:"bytes,3,opt,name=forgot,proto3" json:"forgot,omitempty"`
+}
+
+func (x *NewPasswordForgotRequest) Reset() {
+	*x = NewPasswordForgotRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_authenticate_proto_msgTypes[12]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *NewPasswordForgotRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*NewPasswordForgotRequest) ProtoMessage() {}
+
+func (x *NewPasswordForgotRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_authenticate_proto_msgTypes[12]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use NewPasswordForgotRequest.ProtoReflect.Descriptor instead.
+func (*NewPasswordForgotRequest) Descriptor() ([]byte, []int) {
+	return file_authenticate_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *NewPasswordForgotRequest) GetEmail() string {
+	if x != nil {
+		return x.Email
+	}
+	return ""
+}
+
+func (x *NewPasswordForgotRequest) GetPassword() string {
+	if x != nil {
+		return x.Password
+	}
+	return ""
+}
+
+func (x *NewPasswordForgotRequest) GetForgot() string {
+	if x != nil {
+		return x.Forgot
+	}
+	return ""
+}
+
+type NewPasswordForgotResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Modify bool `protobuf:"varint,1,opt,name=modify,proto3" json:"modify,omitempty"`
+}
+
+func (x *NewPasswordForgotResponse) Reset() {
+	*x = NewPasswordForgotResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_authenticate_proto_msgTypes[13]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *NewPasswordForgotResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*NewPasswordForgotResponse) ProtoMessage() {}
+
+func (x *NewPasswordForgotResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_authenticate_proto_msgTypes[13]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use NewPasswordForgotResponse.ProtoReflect.Descriptor instead.
+func (*NewPasswordForgotResponse) Descriptor() ([]byte, []int) {
+	return file_authenticate_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *NewPasswordForgotResponse) GetModify() bool {
+	if x != nil {
+		return x.Modify
+	}
+	return false
+}
+
 var File_authenticate_proto protoreflect.FileDescriptor
 
 var file_authenticate_proto_rawDesc = []byte{
@@ -625,25 +829,48 @@ var file_authenticate_proto_rawDesc = []byte{
 	0x14, 0x0a, 0x05, 0x65, 0x6d, 0x61, 0x69, 0x6c, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05,
 	0x65, 0x6d, 0x61, 0x69, 0x6c, 0x22, 0x25, 0x0a, 0x0d, 0x45, 0x6d, 0x61, 0x69, 0x6c, 0x52, 0x65,
 	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x14, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x69, 0x64, 0x18,
-	0x01, 0x20, 0x01, 0x28, 0x08, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x69, 0x64, 0x32, 0x81, 0x02, 0x0a,
-	0x17, 0x41, 0x75, 0x74, 0x68, 0x65, 0x6e, 0x74, 0x69, 0x63, 0x61, 0x74, 0x65, 0x43, 0x6f, 0x6d,
-	0x6d, 0x75, 0x6e, 0x69, 0x63, 0x61, 0x74, 0x65, 0x12, 0x4d, 0x0a, 0x0c, 0x41, 0x75, 0x74, 0x68,
-	0x65, 0x6e, 0x74, 0x69, 0x63, 0x61, 0x74, 0x65, 0x12, 0x1c, 0x2e, 0x41, 0x75, 0x74, 0x68, 0x65,
-	0x6e, 0x74, 0x69, 0x63, 0x61, 0x74, 0x65, 0x56, 0x61, 0x6c, 0x69, 0x64, 0x61, 0x74, 0x65, 0x52,
-	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1d, 0x2e, 0x41, 0x75, 0x74, 0x68, 0x65, 0x6e, 0x74,
-	0x69, 0x63, 0x61, 0x74, 0x65, 0x56, 0x61, 0x6c, 0x69, 0x64, 0x61, 0x74, 0x65, 0x52, 0x65, 0x73,
-	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x33, 0x0a, 0x0c, 0x52, 0x65, 0x66, 0x72, 0x65,
-	0x73, 0x68, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x12, 0x0f, 0x2e, 0x52, 0x65, 0x66, 0x72, 0x65, 0x73,
-	0x68, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x10, 0x2e, 0x52, 0x65, 0x66, 0x72, 0x65,
-	0x73, 0x68, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x30, 0x0a, 0x0d,
-	0x56, 0x61, 0x6c, 0x69, 0x64, 0x61, 0x74, 0x65, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x12, 0x0d, 0x2e,
-	0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x0e, 0x2e, 0x54,
-	0x6f, 0x6b, 0x65, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x30,
-	0x0a, 0x0d, 0x56, 0x61, 0x6c, 0x69, 0x64, 0x61, 0x74, 0x65, 0x45, 0x6d, 0x61, 0x69, 0x6c, 0x12,
-	0x0d, 0x2e, 0x45, 0x6d, 0x61, 0x69, 0x6c, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x0e,
-	0x2e, 0x45, 0x6d, 0x61, 0x69, 0x6c, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00,
-	0x42, 0x0e, 0x5a, 0x0c, 0x2f, 0x63, 0x6f, 0x6d, 0x6d, 0x75, 0x6e, 0x69, 0x63, 0x61, 0x74, 0x65,
-	0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x01, 0x20, 0x01, 0x28, 0x08, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x69, 0x64, 0x22, 0x25, 0x0a, 0x0d,
+	0x46, 0x6f, 0x72, 0x67, 0x6f, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x14, 0x0a,
+	0x05, 0x65, 0x6d, 0x61, 0x69, 0x6c, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x65, 0x6d,
+	0x61, 0x69, 0x6c, 0x22, 0x28, 0x0a, 0x0e, 0x46, 0x6f, 0x72, 0x67, 0x6f, 0x74, 0x52, 0x65, 0x73,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x16, 0x0a, 0x06, 0x73, 0x65, 0x6e, 0x64, 0x65, 0x72, 0x18,
+	0x01, 0x20, 0x01, 0x28, 0x08, 0x52, 0x06, 0x73, 0x65, 0x6e, 0x64, 0x65, 0x72, 0x22, 0x64, 0x0a,
+	0x18, 0x4e, 0x65, 0x77, 0x50, 0x61, 0x73, 0x73, 0x77, 0x6f, 0x72, 0x64, 0x46, 0x6f, 0x72, 0x67,
+	0x6f, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x14, 0x0a, 0x05, 0x65, 0x6d, 0x61,
+	0x69, 0x6c, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x65, 0x6d, 0x61, 0x69, 0x6c, 0x12,
+	0x1a, 0x0a, 0x08, 0x70, 0x61, 0x73, 0x73, 0x77, 0x6f, 0x72, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x08, 0x70, 0x61, 0x73, 0x73, 0x77, 0x6f, 0x72, 0x64, 0x12, 0x16, 0x0a, 0x06, 0x66,
+	0x6f, 0x72, 0x67, 0x6f, 0x74, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x66, 0x6f, 0x72,
+	0x67, 0x6f, 0x74, 0x22, 0x33, 0x0a, 0x19, 0x4e, 0x65, 0x77, 0x50, 0x61, 0x73, 0x73, 0x77, 0x6f,
+	0x72, 0x64, 0x46, 0x6f, 0x72, 0x67, 0x6f, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
+	0x12, 0x16, 0x0a, 0x06, 0x6d, 0x6f, 0x64, 0x69, 0x66, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x08,
+	0x52, 0x06, 0x6d, 0x6f, 0x64, 0x69, 0x66, 0x79, 0x32, 0x87, 0x03, 0x0a, 0x17, 0x41, 0x75, 0x74,
+	0x68, 0x65, 0x6e, 0x74, 0x69, 0x63, 0x61, 0x74, 0x65, 0x43, 0x6f, 0x6d, 0x6d, 0x75, 0x6e, 0x69,
+	0x63, 0x61, 0x74, 0x65, 0x12, 0x4d, 0x0a, 0x0c, 0x41, 0x75, 0x74, 0x68, 0x65, 0x6e, 0x74, 0x69,
+	0x63, 0x61, 0x74, 0x65, 0x12, 0x1c, 0x2e, 0x41, 0x75, 0x74, 0x68, 0x65, 0x6e, 0x74, 0x69, 0x63,
+	0x61, 0x74, 0x65, 0x56, 0x61, 0x6c, 0x69, 0x64, 0x61, 0x74, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65,
+	0x73, 0x74, 0x1a, 0x1d, 0x2e, 0x41, 0x75, 0x74, 0x68, 0x65, 0x6e, 0x74, 0x69, 0x63, 0x61, 0x74,
+	0x65, 0x56, 0x61, 0x6c, 0x69, 0x64, 0x61, 0x74, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x65, 0x22, 0x00, 0x12, 0x33, 0x0a, 0x0c, 0x52, 0x65, 0x66, 0x72, 0x65, 0x73, 0x68, 0x54, 0x6f,
+	0x6b, 0x65, 0x6e, 0x12, 0x0f, 0x2e, 0x52, 0x65, 0x66, 0x72, 0x65, 0x73, 0x68, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x1a, 0x10, 0x2e, 0x52, 0x65, 0x66, 0x72, 0x65, 0x73, 0x68, 0x52, 0x65,
+	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x30, 0x0a, 0x0d, 0x56, 0x61, 0x6c, 0x69,
+	0x64, 0x61, 0x74, 0x65, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x12, 0x0d, 0x2e, 0x54, 0x6f, 0x6b, 0x65,
+	0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x0e, 0x2e, 0x54, 0x6f, 0x6b, 0x65, 0x6e,
+	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x30, 0x0a, 0x0d, 0x56, 0x61,
+	0x6c, 0x69, 0x64, 0x61, 0x74, 0x65, 0x45, 0x6d, 0x61, 0x69, 0x6c, 0x12, 0x0d, 0x2e, 0x45, 0x6d,
+	0x61, 0x69, 0x6c, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x0e, 0x2e, 0x45, 0x6d, 0x61,
+	0x69, 0x6c, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x33, 0x0a, 0x0e,
+	0x46, 0x6f, 0x72, 0x67, 0x6f, 0x74, 0x50, 0x61, 0x73, 0x73, 0x77, 0x6f, 0x72, 0x64, 0x12, 0x0e,
+	0x2e, 0x46, 0x6f, 0x72, 0x67, 0x6f, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x0f,
+	0x2e, 0x46, 0x6f, 0x72, 0x67, 0x6f, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22,
+	0x00, 0x12, 0x4f, 0x0a, 0x14, 0x53, 0x65, 0x74, 0x4e, 0x65, 0x77, 0x50, 0x61, 0x73, 0x73, 0x77,
+	0x6f, 0x72, 0x64, 0x46, 0x6f, 0x72, 0x67, 0x6f, 0x74, 0x12, 0x19, 0x2e, 0x4e, 0x65, 0x77, 0x50,
+	0x61, 0x73, 0x73, 0x77, 0x6f, 0x72, 0x64, 0x46, 0x6f, 0x72, 0x67, 0x6f, 0x74, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x1a, 0x1a, 0x2e, 0x4e, 0x65, 0x77, 0x50, 0x61, 0x73, 0x73, 0x77, 0x6f,
+	0x72, 0x64, 0x46, 0x6f, 0x72, 0x67, 0x6f, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
+	0x22, 0x00, 0x42, 0x0e, 0x5a, 0x0c, 0x2f, 0x63, 0x6f, 0x6d, 0x6d, 0x75, 0x6e, 0x69, 0x63, 0x61,
+	0x74, 0x65, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -658,7 +885,7 @@ func file_authenticate_proto_rawDescGZIP() []byte {
 	return file_authenticate_proto_rawDescData
 }
 
-var file_authenticate_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
+var file_authenticate_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
 var file_authenticate_proto_goTypes = []interface{}{
 	(*AuthenticateValidateRequest)(nil),  // 0: AuthenticateValidateRequest
 	(*Roles)(nil),                        // 1: Roles
@@ -670,23 +897,31 @@ var file_authenticate_proto_goTypes = []interface{}{
 	(*TokenResponse)(nil),                // 7: TokenResponse
 	(*EmailRequest)(nil),                 // 8: EmailRequest
 	(*EmailResponse)(nil),                // 9: EmailResponse
+	(*ForgotRequest)(nil),                // 10: ForgotRequest
+	(*ForgotResponse)(nil),               // 11: ForgotResponse
+	(*NewPasswordForgotRequest)(nil),     // 12: NewPasswordForgotRequest
+	(*NewPasswordForgotResponse)(nil),    // 13: NewPasswordForgotResponse
 }
 var file_authenticate_proto_depIdxs = []int32{
-	1, // 0: UserResponse.Roles:type_name -> Roles
-	2, // 1: AuthenticateValidateResponse.UserResponse:type_name -> UserResponse
-	0, // 2: AuthenticateCommunicate.Authenticate:input_type -> AuthenticateValidateRequest
-	4, // 3: AuthenticateCommunicate.RefreshToken:input_type -> RefreshRequest
-	6, // 4: AuthenticateCommunicate.ValidateToken:input_type -> TokenRequest
-	8, // 5: AuthenticateCommunicate.ValidateEmail:input_type -> EmailRequest
-	3, // 6: AuthenticateCommunicate.Authenticate:output_type -> AuthenticateValidateResponse
-	5, // 7: AuthenticateCommunicate.RefreshToken:output_type -> RefreshResponse
-	7, // 8: AuthenticateCommunicate.ValidateToken:output_type -> TokenResponse
-	9, // 9: AuthenticateCommunicate.ValidateEmail:output_type -> EmailResponse
-	6, // [6:10] is the sub-list for method output_type
-	2, // [2:6] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	1,  // 0: UserResponse.Roles:type_name -> Roles
+	2,  // 1: AuthenticateValidateResponse.UserResponse:type_name -> UserResponse
+	0,  // 2: AuthenticateCommunicate.Authenticate:input_type -> AuthenticateValidateRequest
+	4,  // 3: AuthenticateCommunicate.RefreshToken:input_type -> RefreshRequest
+	6,  // 4: AuthenticateCommunicate.ValidateToken:input_type -> TokenRequest
+	8,  // 5: AuthenticateCommunicate.ValidateEmail:input_type -> EmailRequest
+	10, // 6: AuthenticateCommunicate.ForgotPassword:input_type -> ForgotRequest
+	12, // 7: AuthenticateCommunicate.SetNewPasswordForgot:input_type -> NewPasswordForgotRequest
+	3,  // 8: AuthenticateCommunicate.Authenticate:output_type -> AuthenticateValidateResponse
+	5,  // 9: AuthenticateCommunicate.RefreshToken:output_type -> RefreshResponse
+	7,  // 10: AuthenticateCommunicate.ValidateToken:output_type -> TokenResponse
+	9,  // 11: AuthenticateCommunicate.ValidateEmail:output_type -> EmailResponse
+	11, // 12: AuthenticateCommunicate.ForgotPassword:output_type -> ForgotResponse
+	13, // 13: AuthenticateCommunicate.SetNewPasswordForgot:output_type -> NewPasswordForgotResponse
+	8,  // [8:14] is the sub-list for method output_type
+	2,  // [2:8] is the sub-list for method input_type
+	2,  // [2:2] is the sub-list for extension type_name
+	2,  // [2:2] is the sub-list for extension extendee
+	0,  // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_authenticate_proto_init() }
@@ -815,6 +1050,54 @@ func file_authenticate_proto_init() {
 				return nil
 			}
 		}
+		file_authenticate_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ForgotRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_authenticate_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ForgotResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_authenticate_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*NewPasswordForgotRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_authenticate_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*NewPasswordForgotResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -822,7 +1105,7 @@ func file_authenticate_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_authenticate_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   10,
+			NumMessages:   14,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
@@ -852,6 +1135,8 @@ type AuthenticateCommunicateClient interface {
 	RefreshToken(ctx context.Context, in *RefreshRequest, opts ...grpc.CallOption) (*RefreshResponse, error)
 	ValidateToken(ctx context.Context, in *TokenRequest, opts ...grpc.CallOption) (*TokenResponse, error)
 	ValidateEmail(ctx context.Context, in *EmailRequest, opts ...grpc.CallOption) (*EmailResponse, error)
+	ForgotPassword(ctx context.Context, in *ForgotRequest, opts ...grpc.CallOption) (*ForgotResponse, error)
+	SetNewPasswordForgot(ctx context.Context, in *NewPasswordForgotRequest, opts ...grpc.CallOption) (*NewPasswordForgotResponse, error)
 }
 
 type authenticateCommunicateClient struct {
@@ -898,12 +1183,32 @@ func (c *authenticateCommunicateClient) ValidateEmail(ctx context.Context, in *E
 	return out, nil
 }
 
+func (c *authenticateCommunicateClient) ForgotPassword(ctx context.Context, in *ForgotRequest, opts ...grpc.CallOption) (*ForgotResponse, error) {
+	out := new(ForgotResponse)
+	err := c.cc.Invoke(ctx, "/AuthenticateCommunicate/ForgotPassword", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authenticateCommunicateClient) SetNewPasswordForgot(ctx context.Context, in *NewPasswordForgotRequest, opts ...grpc.CallOption) (*NewPasswordForgotResponse, error) {
+	out := new(NewPasswordForgotResponse)
+	err := c.cc.Invoke(ctx, "/AuthenticateCommunicate/SetNewPasswordForgot", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AuthenticateCommunicateServer is the server API for AuthenticateCommunicate service.
 type AuthenticateCommunicateServer interface {
 	Authenticate(context.Context, *AuthenticateValidateRequest) (*AuthenticateValidateResponse, error)
 	RefreshToken(context.Context, *RefreshRequest) (*RefreshResponse, error)
 	ValidateToken(context.Context, *TokenRequest) (*TokenResponse, error)
 	ValidateEmail(context.Context, *EmailRequest) (*EmailResponse, error)
+	ForgotPassword(context.Context, *ForgotRequest) (*ForgotResponse, error)
+	SetNewPasswordForgot(context.Context, *NewPasswordForgotRequest) (*NewPasswordForgotResponse, error)
 }
 
 // UnimplementedAuthenticateCommunicateServer can be embedded to have forward compatible implementations.
@@ -921,6 +1226,12 @@ func (*UnimplementedAuthenticateCommunicateServer) ValidateToken(context.Context
 }
 func (*UnimplementedAuthenticateCommunicateServer) ValidateEmail(context.Context, *EmailRequest) (*EmailResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ValidateEmail not implemented")
+}
+func (*UnimplementedAuthenticateCommunicateServer) ForgotPassword(context.Context, *ForgotRequest) (*ForgotResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ForgotPassword not implemented")
+}
+func (*UnimplementedAuthenticateCommunicateServer) SetNewPasswordForgot(context.Context, *NewPasswordForgotRequest) (*NewPasswordForgotResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SetNewPasswordForgot not implemented")
 }
 
 func RegisterAuthenticateCommunicateServer(s *grpc.Server, srv AuthenticateCommunicateServer) {
@@ -999,6 +1310,42 @@ func _AuthenticateCommunicate_ValidateEmail_Handler(srv interface{}, ctx context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AuthenticateCommunicate_ForgotPassword_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ForgotRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthenticateCommunicateServer).ForgotPassword(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/AuthenticateCommunicate/ForgotPassword",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthenticateCommunicateServer).ForgotPassword(ctx, req.(*ForgotRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AuthenticateCommunicate_SetNewPasswordForgot_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(NewPasswordForgotRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthenticateCommunicateServer).SetNewPasswordForgot(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/AuthenticateCommunicate/SetNewPasswordForgot",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthenticateCommunicateServer).SetNewPasswordForgot(ctx, req.(*NewPasswordForgotRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _AuthenticateCommunicate_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "AuthenticateCommunicate",
 	HandlerType: (*AuthenticateCommunicateServer)(nil),
@@ -1018,6 +1365,14 @@ var _AuthenticateCommunicate_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ValidateEmail",
 			Handler:    _AuthenticateCommunicate_ValidateEmail_Handler,
+		},
+		{
+			MethodName: "ForgotPassword",
+			Handler:    _AuthenticateCommunicate_ForgotPassword_Handler,
+		},
+		{
+			MethodName: "SetNewPasswordForgot",
+			Handler:    _AuthenticateCommunicate_SetNewPasswordForgot_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

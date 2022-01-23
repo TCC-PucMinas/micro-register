@@ -35,7 +35,6 @@ message RefreshResponse {
   string access_token = 1;
   string refresh_token = 2;
 }
-
 message TokenRequest {
   string access_token = 1;
   string path = 2;
@@ -53,9 +52,29 @@ message EmailResponse {
   bool valid = 1;
 }
 
+message ForgotRequest {
+  string email = 1;
+}
+
+message ForgotResponse {
+  bool sender = 1;
+}
+
+message NewPasswordForgotRequest {
+  string email = 1;
+  string password = 2;
+  string forgot = 3;
+}
+
+message NewPasswordForgotResponse {
+  bool modify = 1;
+}
+
 service AuthenticateCommunicate {
   rpc Authenticate (AuthenticateValidateRequest) returns (AuthenticateValidateResponse) {};
   rpc RefreshToken (RefreshRequest) returns (RefreshResponse) {};
   rpc ValidateToken (TokenRequest) returns (TokenResponse) {};
   rpc ValidateEmail (EmailRequest) returns (EmailResponse) {};
+  rpc ForgotPassword (ForgotRequest) returns (ForgotResponse) {};
+  rpc SetNewPasswordForgot (NewPasswordForgotRequest) returns (NewPasswordForgotResponse) {};
 }

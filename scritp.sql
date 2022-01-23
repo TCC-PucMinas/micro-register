@@ -40,6 +40,7 @@ create table users (
     phone varchar(255) not null,
     business varchar(255) not null,
     cpf_cnpj varchar(255) not null,
+    forgot text,
     email varchar(255) not null,
 	`password` varchar(255) not null,
     first_name varchar(255) not null,
