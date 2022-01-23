@@ -12,24 +12,16 @@ create table permissions (
 
 INSERT INTO permissions ( name ) VALUES ('USER'), ('ADMIN'), ('DIRECTOR'),('BI'), ('EMPLOYER');
 
-create table menus (
-	id int unsigned auto_increment primary key,
-    name varchar(100) not null,
-    icon_menu varchar(100),
-    url_menu varchar(100) not null,
-	`created_at` datetime default now(),
-	id_permission int unsigned not null,
+create table routes (
+    id int unsigned auto_increment primary key,
+    `path` text not null,
+    `method` varchar(10) not null,
+    `created_at` datetime default now(),
+    id_permission int unsigned not null,
 	FOREIGN KEY (id_permission) REFERENCES permissions(id)
 );
 
-insert into menus (name, id_permission, icon_menu, url_menu) values
-	('Novo Pedido', 1, 'bxs-truck', 'novoPedido'),
-    ('Acompanhar', 1, 'bxs-map', 'acompanhamento'),
-	('Historico', 1, 'bxs-timer', 'historico'),
-	('Extrato de Notas', 1, 'bxs-file', 'extratoeNotas'),
-    ('Perfil', 1, 'bx-user', 'perfil'),
-    ('Cadastrar', 2, null, 'cadastrar'),
-    ('Perfil Diretoria', 3, 'bx-user', 'perfil');
+insert INTO routes (`path`, method, id_permission) values ("/api/user", "GET", 1);
 
 create table addresses (
 	id int unsigned auto_increment primary key,

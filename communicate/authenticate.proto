@@ -12,19 +12,12 @@ message Roles {
   string name  = 2;
 }
 
-message Menus {
-  string id = 1;
-  string name = 2;
-  string icon_menu = 3;
-  string url_menu = 4;
-}
 
 message UserResponse {
   string id = 1;
   string name = 2;
   string email = 3;
   repeated Roles Roles = 4;
-  repeated Menus Menus = 5;
 }
 
 message AuthenticateValidateResponse {
@@ -45,14 +38,24 @@ message RefreshResponse {
 
 message TokenRequest {
   string access_token = 1;
+  string path = 2;
 }
 
 message TokenResponse {
   bool validate = 1;
 }
 
+message EmailRequest  {
+  string email = 1;
+}
+
+message EmailResponse {
+  bool valid = 1;
+}
+
 service AuthenticateCommunicate {
   rpc Authenticate (AuthenticateValidateRequest) returns (AuthenticateValidateResponse) {};
   rpc RefreshToken (RefreshRequest) returns (RefreshResponse) {};
   rpc ValidateToken (TokenRequest) returns (TokenResponse) {};
+  rpc ValidateEmail (EmailRequest) returns (EmailResponse) {};
 }

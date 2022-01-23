@@ -5,6 +5,7 @@ import (
 	"net"
 
 	"github.com/TCC-PucMinas/micro-register/communicate"
+	"github.com/TCC-PucMinas/micro-register/controller"
 	"google.golang.org/grpc"
 )
 
@@ -21,7 +22,7 @@ func main() {
 	}
 
 	grpcServer := grpc.NewServer()
-	communicate.RegisterAuthenticateCommunicateServer(grpcServer, &communicate.Server{})
+	communicate.RegisterAuthenticateCommunicateServer(grpcServer, &controller.AuthenticateServer{})
 
 	fmt.Println("[x] - Server register listen...")
 
