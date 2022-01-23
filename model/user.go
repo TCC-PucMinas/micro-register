@@ -1,6 +1,11 @@
 package model
 
-import "github.com/TCC-PucMinas/micro-register/db"
+import (
+	"errors"
+	"strconv"
+
+	"github.com/TCC-PucMinas/micro-register/db"
+)
 
 type User struct {
 	Id        int64     `json:"id"`
@@ -33,4 +38,30 @@ func (u *User) UpdateUserForgotById() (bool, error) {
 	}
 
 	return true, nil
+}
+
+func (u *User) GetOneUserByForgotCode() error {
+
+	sql := db.ConnectDatabase()
+
+	query := `select id  from users where forgot = ? limit 1;`
+
+	requestConfig, err := sql.Query(query, u.Forgot)
+
+	if err != nil {
+		return err
+	}
+
+	for requestConfig.Next() {
+		var id string
+		_ = requestConfig.Scan(&id)
+		i64, _ := strconv.ParseInt(id, 10, 64)
+		u.Id = i64
+	}
+
+	if u.Id == 0 {
+		return errors.New("Not found key")
+	}
+
+	return nil
 }

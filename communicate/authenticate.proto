@@ -70,11 +70,20 @@ message NewPasswordForgotResponse {
   bool modify = 1;
 }
 
+message ValidateForgotCodeRequest  {
+  string forgot = 1;
+}
+
+message ValidateForgotCodeResponse {
+  bool valid = 1;
+}
+
 service AuthenticateCommunicate {
   rpc Authenticate (AuthenticateValidateRequest) returns (AuthenticateValidateResponse) {};
   rpc RefreshToken (RefreshRequest) returns (RefreshResponse) {};
   rpc ValidateToken (TokenRequest) returns (TokenResponse) {};
   rpc ValidateEmail (EmailRequest) returns (EmailResponse) {};
+  rpc ValidateForgotCode (ValidateForgotCodeRequest) returns (ValidateForgotCodeResponse) {};
   rpc ForgotPassword (ForgotRequest) returns (ForgotResponse) {};
   rpc SetNewPasswordForgot (NewPasswordForgotRequest) returns (NewPasswordForgotResponse) {};
 }

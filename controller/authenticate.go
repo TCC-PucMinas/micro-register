@@ -203,3 +203,18 @@ func (s *AuthenticateServer) ForgotPassword(ctx context.Context, request *commun
 
 	return res, nil
 }
+
+func (s *AuthenticateServer) ValidateForgotCode(ctx context.Context, request *communicate.ValidateForgotCodeRequest) (*communicate.ValidateForgotCodeResponse, error) {
+	res := &communicate.ValidateForgotCodeResponse{}
+
+	user := model.User{}
+
+	user.Forgot = request.Forgot
+
+	if err := user.GetOneUserByForgotCode(); err != nil {
+		return res, errors.New("Forgot code invalid!")
+	}
+
+	res.Valid = true
+	return res, nil
+}
