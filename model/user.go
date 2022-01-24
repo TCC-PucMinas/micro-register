@@ -77,7 +77,7 @@ func (u *User) UpdateUserSetNewPasswordByForgot() error {
 		return err
 	}
 
-	_, e := updateHealthyCheck.Exec(u.Password, u.Forgot, u.Forgot)
+	_, e := updateHealthyCheck.Exec(u.Password, nil, u.Forgot)
 
 	if e != nil {
 		return e
