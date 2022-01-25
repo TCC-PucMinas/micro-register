@@ -189,6 +189,8 @@ func (s *AuthenticateServer) ForgotPassword(ctx context.Context, request *commun
 		return res, errors.New("Error connect nats server...")
 	}
 
+	defer nats.Nats.Close()
+
 	email := service.EmailCommunicate{}
 
 	email.Forgot = generate

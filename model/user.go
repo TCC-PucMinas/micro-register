@@ -88,7 +88,7 @@ func (u *User) UpdateUserSetNewPasswordByForgot() error {
 	return nil
 }
 
-func (u *User) CreateUser() error {
+func (u *User) CreateUser() (int64, error) {
 	sql := db.ConnectDatabase()
 
 	query := `insert into users (phone, business, cpf_cnpj, email, password, first_name, last_name, code_active, active)  values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
@@ -96,14 +96,14 @@ func (u *User) CreateUser() error {
 	insertUser, err := sql.Prepare(query)
 
 	if err != nil {
-		return err
+		return 0, err
 	}
 
-	_, e := insertUser.Exec(u.Phone, u.Business, u.CpfCnpj, u.Email, u.Password, u.FirstName, u.LastName, u.CodeActive, u.Active)
+	d, e := insertUser.Exec(u.Phone, u.Business, u.CpfCnpj, u.Email, u.Password, u.FirstName, u.LastName, u.CodeActive, u.Active)
 
 	if e != nil {
-		return e
+		return 0, e
 	}
 
-	return nil
+	return d.LastInsertId()
 }
