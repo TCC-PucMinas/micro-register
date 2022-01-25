@@ -8,16 +8,18 @@ import (
 )
 
 type User struct {
-	Id        int64     `json:"id"`
-	Phone     string    `json:"phone"`
-	Forgot    string    `json:"forgot"`
-	Business  string    `json:"business"`
-	CpfCnpj   string    `json:"cpf_cnpj"`
-	Email     string    `json:"email"`
-	Password  string    `json:"password"`
-	FirstName string    `json:"first_name"`
-	LastName  string    `json:"last_name"`
-	Adress    []Address `json:"addresses"`
+	Id         int64     `json:"id"`
+	Phone      string    `json:"phone"`
+	Forgot     string    `json:"forgot"`
+	Business   string    `json:"business"`
+	CpfCnpj    string    `json:"cpf_cnpj"`
+	Email      string    `json:"email"`
+	Password   string    `json:"password"`
+	FirstName  string    `json:"first_name"`
+	LastName   string    `json:"last_name"`
+	CodeActive string    `json:"code_active`
+	Active     string    `json:"active"`
+	Adress     []Address `json:"addresses"`
 }
 
 func (u *User) UpdateUserForgotById() (bool, error) {
@@ -71,13 +73,33 @@ func (u *User) UpdateUserSetNewPasswordByForgot() error {
 
 	query := "update users set password = ?, forgot = ? where forgot = ?"
 
-	updateHealthyCheck, err := sql.Prepare(query)
+	updateUser, err := sql.Prepare(query)
 
 	if err != nil {
 		return err
 	}
 
-	_, e := updateHealthyCheck.Exec(u.Password, nil, u.Forgot)
+	_, e := updateUser.Exec(u.Password, nil, u.Forgot)
+
+	if e != nil {
+		return e
+	}
+
+	return nil
+}
+
+func (u *User) CreateUser() error {
+	sql := db.ConnectDatabase()
+
+	query := `insert into users (phone, business, cpf_cnpj, email, password, first_name, last_name, code_active, active)  values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+
+	insertUser, err := sql.Prepare(query)
+
+	if err != nil {
+		return err
+	}
+
+	_, e := insertUser.Exec(u.Phone, u.Business, u.CpfCnpj, u.Email, u.Password, u.FirstName, u.LastName, u.CodeActive, u.Active)
 
 	if e != nil {
 		return e

@@ -35,6 +35,7 @@ create table addresses (
 
 insert into addresses(street, state, `number`, country) values ('rua padre josé alves', 'CE', '390', 'brazil');
 
+
 create table users (
 	id INT unsigned auto_increment primary key,
     phone varchar(255) not null,
@@ -45,13 +46,25 @@ create table users (
 	`password` varchar(255) not null,
     first_name varchar(255) not null,
     last_name varchar(255) not null,
-    `created_at` datetime default now(),
-	id_address int unsigned not null,
-	FOREIGN KEY (id_address) REFERENCES addresses(id)
+    code_active varchar(255) null,
+    `active` boolean default  1,
+    `created_at` datetime default now()
 );
 
-insert into users (phone, business, cpf_cnpj, email, `password`, first_name, last_name, id_address) values 
-	('8897613741', 'desenvolvedor', '03506838326', 'higordiegoti@gmail.com', '$2a$04$uxMOqH.TJ58FPe06EnqCHuqnLylq7emaDJ764joC.lxSla.Q0WOd6', 'higor', 'pinheiro', 1);
+create table user_addresses (
+    id int unsigned auto_increment primary key,
+    id_user int unsigned not null,
+    id_address int unsigned not null,
+    created_at datetime default now(),
+    FOREIGN KEY (id_user) REFERENCES users(id),
+    FOREIGN KEY (id_address) REFERENCES addresses(id)
+);
+
+insert into users (phone, business, cpf_cnpj, email, `password`, first_name, last_name) values 
+	('8897613741', 'desenvolvedor', '03506838326', 'higordiegoti@gmail.com', '$2a$04$uxMOqH.TJ58FPe06EnqCHuqnLylq7emaDJ764joC.lxSla.Q0WOd6', 'higor', 'pinheiro');
+
+
+insert into user_addresses (id_user, id_address) values (1, 1);
 
 create table user_permissions(
     id int unsigned auto_increment primary key,
