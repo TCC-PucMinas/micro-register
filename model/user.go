@@ -159,3 +159,23 @@ func (u *User) GetOneUserByCodeActive() error {
 
 	return nil
 }
+
+func (u *User) UpdateUserSetActiveUser() error {
+	sql := db.ConnectDatabase()
+
+	query := "update users set code_active = ?, active = ? where code_active = ?"
+
+	updateUser, err := sql.Prepare(query)
+
+	if err != nil {
+		return err
+	}
+
+	_, e := updateUser.Exec(nil, u.Active, u.CodeActive)
+
+	if e != nil {
+		return e
+	}
+
+	return nil
+}

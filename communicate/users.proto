@@ -43,8 +43,17 @@ message ValidateCodeActiveResponse {
   bool valid = 1;
 }
 
+message ActiveCodeUserRequest {
+  string code_active = 1;
+}
+
+message ActiveCodeUserResponse {
+  bool actived = 1;
+}
+
 service UserCommunicate {
   rpc CreateUser (CreateUserRequest) returns (CreateUserResponse) {};
   rpc ValidateUserExist (ValidateUserExistRequest) returns (ValidateUserExistResponse) {};
   rpc ValidateCodeActive (ValidateCodeActiveRequest) returns (ValidateCodeActiveResponse) {};
+  rpc ActivatedUserCodeActive (ActiveCodeUserRequest) returns (ActiveCodeUserResponse) {};
 }

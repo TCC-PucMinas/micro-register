@@ -123,3 +123,25 @@ func (s *UserCommunicate) ValidateCodeActive(ctx context.Context, request *commu
 	res.Valid = true
 	return res, nil
 }
+
+func (s *UserCommunicate) ActivatedUserCodeActive(ctxt context.Context, request *communicate.ActiveCodeUserRequest) (*communicate.ActiveCodeUserResponse, error) {
+	res := &communicate.ActiveCodeUserResponse{}
+
+	user := model.User{
+		CodeActive: request.CodeActive,
+		Active:     0,
+	}
+
+	if err := user.GetOneUserByCodeActive(); err != nil {
+		return res, errors.New("Code invalid!")
+	}
+
+	user.Active = 1
+	if err := user.UpdateUserSetActiveUser(); err != nil {
+		return res, err
+	}
+
+	res.Actived = true
+
+	return res, nil
+}
