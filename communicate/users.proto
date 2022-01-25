@@ -25,6 +25,16 @@ message CreateUserResponse {
   bool created = 1;
 }
 
+message ValidateUserExistRequest {
+  string email = 1;
+  string cpf_cnpj = 2;
+}
+
+message ValidateUserExistResponse {
+  bool valid = 1;
+}
+
 service UserCommunicate {
   rpc CreateUser (CreateUserRequest) returns (CreateUserResponse) {};
+  rpc ValidateUserExist (ValidateUserExistRequest) returns (ValidateUserExistResponse) {};
 }

@@ -253,6 +253,108 @@ func (x *CreateUserResponse) GetCreated() bool {
 	return false
 }
 
+type ValidateUserExistRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Email   string `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty"`
+	CpfCnpj string `protobuf:"bytes,2,opt,name=cpf_cnpj,json=cpfCnpj,proto3" json:"cpf_cnpj,omitempty"`
+}
+
+func (x *ValidateUserExistRequest) Reset() {
+	*x = ValidateUserExistRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_users_proto_msgTypes[3]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ValidateUserExistRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ValidateUserExistRequest) ProtoMessage() {}
+
+func (x *ValidateUserExistRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_users_proto_msgTypes[3]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ValidateUserExistRequest.ProtoReflect.Descriptor instead.
+func (*ValidateUserExistRequest) Descriptor() ([]byte, []int) {
+	return file_users_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *ValidateUserExistRequest) GetEmail() string {
+	if x != nil {
+		return x.Email
+	}
+	return ""
+}
+
+func (x *ValidateUserExistRequest) GetCpfCnpj() string {
+	if x != nil {
+		return x.CpfCnpj
+	}
+	return ""
+}
+
+type ValidateUserExistResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Valid bool `protobuf:"varint,1,opt,name=valid,proto3" json:"valid,omitempty"`
+}
+
+func (x *ValidateUserExistResponse) Reset() {
+	*x = ValidateUserExistResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_users_proto_msgTypes[4]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ValidateUserExistResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ValidateUserExistResponse) ProtoMessage() {}
+
+func (x *ValidateUserExistResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_users_proto_msgTypes[4]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ValidateUserExistResponse.ProtoReflect.Descriptor instead.
+func (*ValidateUserExistResponse) Descriptor() ([]byte, []int) {
+	return file_users_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *ValidateUserExistResponse) GetValid() bool {
+	if x != nil {
+		return x.Valid
+	}
+	return false
+}
+
 var File_users_proto protoreflect.FileDescriptor
 
 var file_users_proto_rawDesc = []byte{
@@ -283,13 +385,26 @@ var file_users_proto_rawDesc = []byte{
 	0x65, 0x73, 0x73, 0x52, 0x07, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x22, 0x2e, 0x0a, 0x12,
 	0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
 	0x73, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x63, 0x72, 0x65, 0x61, 0x74, 0x65, 0x64, 0x18, 0x01, 0x20,
-	0x01, 0x28, 0x08, 0x52, 0x07, 0x63, 0x72, 0x65, 0x61, 0x74, 0x65, 0x64, 0x32, 0x4a, 0x0a, 0x0f,
-	0x55, 0x73, 0x65, 0x72, 0x43, 0x6f, 0x6d, 0x6d, 0x75, 0x6e, 0x69, 0x63, 0x61, 0x74, 0x65, 0x12,
-	0x37, 0x0a, 0x0a, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x55, 0x73, 0x65, 0x72, 0x12, 0x12, 0x2e,
-	0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
-	0x74, 0x1a, 0x13, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65,
-	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x42, 0x0e, 0x5a, 0x0c, 0x2f, 0x63, 0x6f, 0x6d,
-	0x6d, 0x75, 0x6e, 0x69, 0x63, 0x61, 0x74, 0x65, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x01, 0x28, 0x08, 0x52, 0x07, 0x63, 0x72, 0x65, 0x61, 0x74, 0x65, 0x64, 0x22, 0x4b, 0x0a, 0x18,
+	0x56, 0x61, 0x6c, 0x69, 0x64, 0x61, 0x74, 0x65, 0x55, 0x73, 0x65, 0x72, 0x45, 0x78, 0x69, 0x73,
+	0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x14, 0x0a, 0x05, 0x65, 0x6d, 0x61, 0x69,
+	0x6c, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x65, 0x6d, 0x61, 0x69, 0x6c, 0x12, 0x19,
+	0x0a, 0x08, 0x63, 0x70, 0x66, 0x5f, 0x63, 0x6e, 0x70, 0x6a, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x07, 0x63, 0x70, 0x66, 0x43, 0x6e, 0x70, 0x6a, 0x22, 0x31, 0x0a, 0x19, 0x56, 0x61, 0x6c,
+	0x69, 0x64, 0x61, 0x74, 0x65, 0x55, 0x73, 0x65, 0x72, 0x45, 0x78, 0x69, 0x73, 0x74, 0x52, 0x65,
+	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x14, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x69, 0x64, 0x18,
+	0x01, 0x20, 0x01, 0x28, 0x08, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x69, 0x64, 0x32, 0x98, 0x01, 0x0a,
+	0x0f, 0x55, 0x73, 0x65, 0x72, 0x43, 0x6f, 0x6d, 0x6d, 0x75, 0x6e, 0x69, 0x63, 0x61, 0x74, 0x65,
+	0x12, 0x37, 0x0a, 0x0a, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x55, 0x73, 0x65, 0x72, 0x12, 0x12,
+	0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65,
+	0x73, 0x74, 0x1a, 0x13, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x55, 0x73, 0x65, 0x72, 0x52,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x4c, 0x0a, 0x11, 0x56, 0x61, 0x6c,
+	0x69, 0x64, 0x61, 0x74, 0x65, 0x55, 0x73, 0x65, 0x72, 0x45, 0x78, 0x69, 0x73, 0x74, 0x12, 0x19,
+	0x2e, 0x56, 0x61, 0x6c, 0x69, 0x64, 0x61, 0x74, 0x65, 0x55, 0x73, 0x65, 0x72, 0x45, 0x78, 0x69,
+	0x73, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1a, 0x2e, 0x56, 0x61, 0x6c, 0x69,
+	0x64, 0x61, 0x74, 0x65, 0x55, 0x73, 0x65, 0x72, 0x45, 0x78, 0x69, 0x73, 0x74, 0x52, 0x65, 0x73,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x42, 0x0e, 0x5a, 0x0c, 0x2f, 0x63, 0x6f, 0x6d, 0x6d,
+	0x75, 0x6e, 0x69, 0x63, 0x61, 0x74, 0x65, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -304,18 +419,22 @@ func file_users_proto_rawDescGZIP() []byte {
 	return file_users_proto_rawDescData
 }
 
-var file_users_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_users_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
 var file_users_proto_goTypes = []interface{}{
-	(*Address)(nil),            // 0: Address
-	(*CreateUserRequest)(nil),  // 1: CreateUserRequest
-	(*CreateUserResponse)(nil), // 2: CreateUserResponse
+	(*Address)(nil),                   // 0: Address
+	(*CreateUserRequest)(nil),         // 1: CreateUserRequest
+	(*CreateUserResponse)(nil),        // 2: CreateUserResponse
+	(*ValidateUserExistRequest)(nil),  // 3: ValidateUserExistRequest
+	(*ValidateUserExistResponse)(nil), // 4: ValidateUserExistResponse
 }
 var file_users_proto_depIdxs = []int32{
 	0, // 0: CreateUserRequest.Address:type_name -> Address
 	1, // 1: UserCommunicate.CreateUser:input_type -> CreateUserRequest
-	2, // 2: UserCommunicate.CreateUser:output_type -> CreateUserResponse
-	2, // [2:3] is the sub-list for method output_type
-	1, // [1:2] is the sub-list for method input_type
+	3, // 2: UserCommunicate.ValidateUserExist:input_type -> ValidateUserExistRequest
+	2, // 3: UserCommunicate.CreateUser:output_type -> CreateUserResponse
+	4, // 4: UserCommunicate.ValidateUserExist:output_type -> ValidateUserExistResponse
+	3, // [3:5] is the sub-list for method output_type
+	1, // [1:3] is the sub-list for method input_type
 	1, // [1:1] is the sub-list for extension type_name
 	1, // [1:1] is the sub-list for extension extendee
 	0, // [0:1] is the sub-list for field type_name
@@ -363,6 +482,30 @@ func file_users_proto_init() {
 				return nil
 			}
 		}
+		file_users_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ValidateUserExistRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_users_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ValidateUserExistResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -370,7 +513,7 @@ func file_users_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_users_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   3,
+			NumMessages:   5,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
@@ -397,6 +540,7 @@ const _ = grpc.SupportPackageIsVersion6
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type UserCommunicateClient interface {
 	CreateUser(ctx context.Context, in *CreateUserRequest, opts ...grpc.CallOption) (*CreateUserResponse, error)
+	ValidateUserExist(ctx context.Context, in *ValidateUserExistRequest, opts ...grpc.CallOption) (*ValidateUserExistResponse, error)
 }
 
 type userCommunicateClient struct {
@@ -416,9 +560,19 @@ func (c *userCommunicateClient) CreateUser(ctx context.Context, in *CreateUserRe
 	return out, nil
 }
 
+func (c *userCommunicateClient) ValidateUserExist(ctx context.Context, in *ValidateUserExistRequest, opts ...grpc.CallOption) (*ValidateUserExistResponse, error) {
+	out := new(ValidateUserExistResponse)
+	err := c.cc.Invoke(ctx, "/UserCommunicate/ValidateUserExist", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserCommunicateServer is the server API for UserCommunicate service.
 type UserCommunicateServer interface {
 	CreateUser(context.Context, *CreateUserRequest) (*CreateUserResponse, error)
+	ValidateUserExist(context.Context, *ValidateUserExistRequest) (*ValidateUserExistResponse, error)
 }
 
 // UnimplementedUserCommunicateServer can be embedded to have forward compatible implementations.
@@ -427,6 +581,9 @@ type UnimplementedUserCommunicateServer struct {
 
 func (*UnimplementedUserCommunicateServer) CreateUser(context.Context, *CreateUserRequest) (*CreateUserResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateUser not implemented")
+}
+func (*UnimplementedUserCommunicateServer) ValidateUserExist(context.Context, *ValidateUserExistRequest) (*ValidateUserExistResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ValidateUserExist not implemented")
 }
 
 func RegisterUserCommunicateServer(s *grpc.Server, srv UserCommunicateServer) {
@@ -451,6 +608,24 @@ func _UserCommunicate_CreateUser_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserCommunicate_ValidateUserExist_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ValidateUserExistRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserCommunicateServer).ValidateUserExist(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/UserCommunicate/ValidateUserExist",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserCommunicateServer).ValidateUserExist(ctx, req.(*ValidateUserExistRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _UserCommunicate_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "UserCommunicate",
 	HandlerType: (*UserCommunicateServer)(nil),
@@ -458,6 +633,10 @@ var _UserCommunicate_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateUser",
 			Handler:    _UserCommunicate_CreateUser_Handler,
+		},
+		{
+			MethodName: "ValidateUserExist",
+			Handler:    _UserCommunicate_ValidateUserExist_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

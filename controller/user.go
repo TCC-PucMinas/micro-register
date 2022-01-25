@@ -2,6 +2,7 @@ package controller
 
 import (
 	"context"
+	"errors"
 
 	"github.com/TCC-PucMinas/micro-register/communicate"
 	"github.com/TCC-PucMinas/micro-register/helpers"
@@ -86,5 +87,21 @@ func (s *UserCommunicate) CreateUser(ctx context.Context, request *communicate.C
 	defer nats.Nats.Close()
 
 	res.Created = true
+	return res, nil
+}
+
+func (s *UserCommunicate) ValidateUserExist(ctx context.Context, request *communicate.ValidateUserExistRequest) (*communicate.ValidateUserExistResponse, error) {
+	res := &communicate.ValidateUserExistResponse{}
+
+	user := model.User{
+		Email:   request.Email,
+		CpfCnpj: request.CpfCnpj,
+	}
+
+	if _ = user.GetOneUserByEmailAndCpf_Cpnj(); user.Id != 0 {
+		return res, errors.New("Email or cpf already registered!")
+	}
+
+	res.Valid = true
 	return res, nil
 }
