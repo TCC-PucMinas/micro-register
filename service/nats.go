@@ -1,6 +1,8 @@
 package service
 
 import (
+	"os"
+
 	"github.com/TCC-PucMinas/micro-register/helpers"
 	"github.com/nats-io/nats.go"
 )
@@ -13,8 +15,8 @@ type Nats struct {
 }
 
 func (n *Nats) Connect() error {
-	// n.Url = os.Getenv("NATS_SERVER")
-	n.Url = "localhost:4222"
+	n.Url = os.Getenv("NATS_SERVER")
+	// n.Url = "localhost:4222"
 	n.Encoding = nats.JSON_ENCODER
 	nc, err := nats.Connect(n.Url)
 

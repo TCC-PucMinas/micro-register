@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"net"
+	"os"
 
 	"github.com/TCC-PucMinas/micro-register/communicate"
 	"github.com/TCC-PucMinas/micro-register/controller"
@@ -11,8 +12,8 @@ import (
 
 func main() {
 
-	// port := os.Getenv("PORT")
-	port := 4000
+	port := os.Getenv("PORT")
+	// port := 4000
 	host := fmt.Sprintf("0.0.0.0:%v", port)
 
 	listener, err := net.Listen("tcp", host)
