@@ -19,4 +19,4 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o micro-register
 FROM scratch
 COPY --from=builder /app/micro-register /app/
 EXPOSE 3000
-ENTRYPOINT ["/app/register"]
+ENTRYPOINT ["/app/micro-register"]
