@@ -133,3 +133,29 @@ func (u *User) GetOneUserByEmailAndCpf_Cpnj() error {
 
 	return nil
 }
+
+func (u *User) GetOneUserByCodeActive() error {
+
+	sql := db.ConnectDatabase()
+
+	query := `select id from users where code_active = ? and active = ? limit 1;`
+
+	user, err := sql.Query(query, u.CodeActive, u.Active)
+
+	if err != nil {
+		return err
+	}
+
+	for user.Next() {
+		var id string
+		_ = user.Scan(&id)
+		i64, _ := strconv.ParseInt(id, 10, 64)
+		u.Id = i64
+	}
+
+	if u.Id == 0 {
+		return errors.New("Not found key")
+	}
+
+	return nil
+}

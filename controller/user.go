@@ -107,3 +107,19 @@ func (s *UserCommunicate) ValidateUserExist(ctx context.Context, request *commun
 	res.Valid = true
 	return res, nil
 }
+
+func (s *UserCommunicate) ValidateCodeActive(ctx context.Context, request *communicate.ValidateCodeActiveRequest) (*communicate.ValidateCodeActiveResponse, error) {
+	res := &communicate.ValidateCodeActiveResponse{}
+
+	user := model.User{
+		CodeActive: request.CodeActive,
+		Active:     0,
+	}
+
+	if err := user.GetOneUserByCodeActive(); err != nil {
+		return res, errors.New("Code invalid!")
+	}
+
+	res.Valid = true
+	return res, nil
+}
