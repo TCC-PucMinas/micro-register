@@ -7,7 +7,8 @@ message Address {
   string state = 2;
   string number = 3;
   string country = 4;
-  string complement = 5;
+  string neighborhood = 5;
+  string complement = 6;
 }
 
 message CreateUserRequest  {
@@ -18,7 +19,7 @@ message CreateUserRequest  {
   string busines = 5;
   string password = 6;
   string email = 7;
-  repeated  Address Address = 8;
+  repeated Address Address = 8;
 }
 
 message CreateUserResponse {
