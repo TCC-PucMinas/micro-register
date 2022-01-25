@@ -17,7 +17,8 @@ message CreateUserRequest  {
   string cpf_cpnj = 4;
   string busines = 5;
   string password = 6;
-  repeated  Address Address = 7;
+  string email = 7;
+  repeated  Address Address = 8;
 }
 
 message CreateUserResponse {

@@ -18,7 +18,7 @@ type User struct {
 	FirstName  string    `json:"first_name"`
 	LastName   string    `json:"last_name"`
 	CodeActive string    `json:"code_active`
-	Active     string    `json:"active"`
+	Active     int       `json:"active"`
 	Adress     []Address `json:"addresses"`
 }
 
