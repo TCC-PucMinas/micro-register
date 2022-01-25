@@ -3,7 +3,6 @@ package controller
 import (
 	"context"
 	"errors"
-	"log"
 
 	"github.com/TCC-PucMinas/micro-register/communicate"
 	"github.com/TCC-PucMinas/micro-register/helpers"
@@ -69,7 +68,6 @@ func (s *UserCommunicate) CreateUser(ctx context.Context, request *communicate.C
 		}
 
 		if _, err := addressUser.CreateAddressUser(); err != nil {
-			log.Println("idAddress", idAddress)
 			return res, err
 		}
 	}
@@ -81,12 +79,12 @@ func (s *UserCommunicate) CreateUser(ctx context.Context, request *communicate.C
 	}
 
 	emailSender := &service.EmailCommunicate{
-		From:    user.Email,
-		Forgot:  user.CodeActive,
-		Subject: "Ative sua conta",
+		From:       user.Email,
+		CodeActive: user.CodeActive,
+		Subject:    "Ative sua conta",
 	}
 
-	nats.PublishAlertEmail(senderNatsEmail, emailSender)
+	nats.PublishAlertEmail(senderNatsActiveCode, emailSender)
 
 	defer nats.Nats.Close()
 
