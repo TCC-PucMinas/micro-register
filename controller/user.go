@@ -3,6 +3,7 @@ package controller
 import (
 	"context"
 	"errors"
+	"log"
 
 	"github.com/TCC-PucMinas/micro-register/communicate"
 	"github.com/TCC-PucMinas/micro-register/helpers"
@@ -50,11 +51,12 @@ func (s *UserCommunicate) CreateUser(ctx context.Context, request *communicate.C
 
 	for _, v := range request.Address {
 		address := model.Address{
-			Street:     v.Street,
-			State:      v.State,
-			Number:     v.Number,
-			Country:    v.Country,
-			Complement: v.Complement,
+			Street:       v.Street,
+			State:        v.State,
+			Number:       v.Number,
+			Neighborhood: v.Neighborhood,
+			Country:      v.Country,
+			Complement:   v.Complement,
 		}
 		idAddress, err := address.CreateAddress()
 		if err != nil {
@@ -65,7 +67,9 @@ func (s *UserCommunicate) CreateUser(ctx context.Context, request *communicate.C
 			UserId:    idUser,
 			AddressId: idAddress,
 		}
+
 		if _, err := addressUser.CreateAddressUser(); err != nil {
+			log.Println("idAddress", idAddress)
 			return res, err
 		}
 	}

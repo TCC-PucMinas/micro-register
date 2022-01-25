@@ -23,6 +23,7 @@ func main() {
 
 	grpcServer := grpc.NewServer()
 	communicate.RegisterAuthenticateCommunicateServer(grpcServer, &controller.AuthenticateServer{})
+	communicate.RegisterUserCommunicateServer(grpcServer, &controller.UserCommunicate{})
 
 	fmt.Println("[x] - Server register listen...")
 

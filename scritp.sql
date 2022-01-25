@@ -26,14 +26,15 @@ insert INTO routes (`path`, method, id_permission) values ("/api/user", "GET", 1
 create table addresses (
 	id int unsigned auto_increment primary key,
 	street varchar(255) not null,
-    state varchar(100) not null,
+    `state` varchar(100) not null,
     `number` varchar(100) not null,
     country varchar(100) not null,
+    neighborhood varchar(200) not null,
     complement text,
 	`created_at` datetime default now()
 );
 
-insert into addresses(street, state, `number`, country) values ('rua padre josé alves', 'CE', '390', 'brazil');
+insert into addresses(street, state, `number`, neighborhood,  country) values ('rua padre josé alves', 'CE', '390', 'salesianos', 'brazil');
 
 
 create table users (

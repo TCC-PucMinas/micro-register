@@ -91,7 +91,7 @@ func (u *User) UpdateUserSetNewPasswordByForgot() error {
 func (u *User) CreateUser() (int64, error) {
 	sql := db.ConnectDatabase()
 
-	query := `insert into users (phone, business, cpf_cnpj, email, password, first_name, last_name, code_active, active)  values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+	query := `insert into users (phone, business, cpf_cnpj, email, password, first_name, last_name, code_active, active)  values (?, ?, ?, ?, ?, ?, ?, ?, ?)`
 
 	insertUser, err := sql.Prepare(query)
 
