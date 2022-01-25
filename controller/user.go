@@ -41,7 +41,7 @@ func (s *UserCommunicate) CreateUser(ctx context.Context, request *communicate.C
 		return res, err
 	}
 	user.CodeActive = codeActive
-	user.Active = 1
+	user.Active = 0
 
 	idUser, err := user.CreateUser()
 	if err != nil {
