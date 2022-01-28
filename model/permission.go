@@ -1,9 +1,16 @@
 package model
 
 import (
+	"encoding/json"
+	"fmt"
 	"strconv"
+	"time"
 
 	"github.com/TCC-PucMinas/micro-register/db"
+)
+
+var (
+	keyTokenRedisRoleByUserIdId = "key-role-by-id"
 )
 
 type Permission struct {
@@ -11,7 +18,44 @@ type Permission struct {
 	Name string `json:"name"`
 }
 
+func setRedisCacheRolesByUserId(permission []Permission) error {
+	db := db.ConnectDatabaseRedis()
+
+	json, err := json.Marshal(permission)
+
+	if err != nil {
+		return err
+	}
+	key := fmt.Sprintf("%v - %v", keyTokenRedisRoleByUserIdId, json)
+
+	return db.Set(key, json, 1*time.Hour).Err()
+}
+
+func getRedisCacheRolesByUserId(userId int64) ([]Permission, error) {
+	userPermissons := []Permission{}
+
+	redis := db.ConnectDatabaseRedis()
+
+	key := fmt.Sprintf("%v - %v", keyTokenRedisRoleByUserIdId, userId)
+
+	value, err := redis.Get(key).Result()
+
+	if err != nil {
+		return userPermissons, err
+	}
+
+	if err := json.Unmarshal([]byte(value), &userPermissons); err != nil {
+		return userPermissons, err
+	}
+
+	return userPermissons, nil
+}
+
 func GetAllRoles(id int64) ([]Permission, error) {
+
+	if permissions, err := getRedisCacheRolesByUserId(id); err == nil {
+		return permissions, err
+	}
 
 	sql := db.ConnectDatabase()
 
@@ -38,6 +82,8 @@ func GetAllRoles(id int64) ([]Permission, error) {
 
 		userPermissons = append(userPermissons, p)
 	}
+
+	_ = setRedisCacheRolesByUserId(userPermissons)
 
 	return userPermissons, nil
 }

@@ -14,7 +14,7 @@ import (
 var (
 	ErrInvalidToken = errors.New("token is invalid")
 	ErrExpiredToken = errors.New("token has expired")
-	hmacSecret      = os.Getenv("HMAC_SECRET") //[]byte("e6428fcb1ea69f53bec5a2b4b817937b75db71d23207c6a6fb4b5cd2c9b9b43f")
+	hmacSecret      = os.Getenv("HMAC_SECRET") // []byte("e6428fcb1ea69f53bec5a2b4b817937b75db71d23207c6a6fb4b5cd2c9b9b43f")
 )
 
 var keyTokenRedis = "auth-jwt"
@@ -98,7 +98,6 @@ func GenerateJwt(id string) (JwtTokens, error) {
 	jwtToken.RefreshToken = refreshToken
 
 	return jwtToken, nil
-
 }
 
 func CheckJwt(jwtUser string, sub int) (bool, error) {
@@ -139,5 +138,4 @@ func ExtractJwt(jwtUser string) (*Claims, error) {
 	}
 
 	return claims, errors.New("Error extract jwt")
-
 }

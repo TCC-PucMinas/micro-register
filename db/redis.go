@@ -19,8 +19,8 @@ func ConnectDatabaseRedis() *redis.Client {
 
 	if instanceDBRedis == nil {
 		client := redis.NewClient(&redis.Options{
-			Addr:     os.Getenv("DB_REDIS_HOST"), // "localhost:6379"
-			Password: os.Getenv("DB_REDIS_PASSWORD"),
+			Addr:     os.Getenv("DB_REDIS_HOST"),     // "localhost:6379"
+			Password: os.Getenv("DB_REDIS_PASSWORD"), // SUASENHA,
 			DB:       0,
 		})
 
@@ -32,4 +32,9 @@ func ConnectDatabaseRedis() *redis.Client {
 	}
 
 	return instanceDBRedis
+}
+
+func RemoveCacheRedisByKey(key string) {
+	db := ConnectDatabaseRedis()
+	db.Del(key)
 }
