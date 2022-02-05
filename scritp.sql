@@ -10,7 +10,7 @@ create table permissions (
     `created_at` datetime default now()
 );
 
-INSERT INTO permissions ( name ) VALUES ('USER'), ('ADMIN'), ('DIRECTOR'),('BI'), ('EMPLOYER'), ('PROVIDER');
+INSERT INTO permissions ( name ) VALUES ('CLIENT'), ('PROVEEDOR'), ('COLLABORATOR');
 
 create table routes (
     id int unsigned auto_increment primary key,
@@ -65,7 +65,7 @@ insert into users (phone, business, cpf_cnpj, email, `password`, first_name, las
 	('8897613741', 'desenvolvedor', '03506838326', 'higordiegoti@gmail.com', '$2a$04$SjtifNEohNa/JzxYO3m3E.Vtx/rgqbp7KnYJEzf89yhH.JD1AjY5u', 'higor', 'pinheiro'),
     ('8897613741', 'desenvolvedor', '03506838326', 'provider@gmail.com', '$2a$04$SjtifNEohNa/JzxYO3m3E.Vtx/rgqbp7KnYJEzf89yhH.JD1AjY5u', 'provider', 'provider');
 
-insert into user_addresses (id_user, id_address) values (1, 1), ();
+insert into user_addresses (id_user, id_address) values (1, 1), (2, 2);
 
 create table user_permissions(
     id int unsigned auto_increment primary key,
@@ -76,8 +76,5 @@ create table user_permissions(
     FOREIGN KEY (id_permission) REFERENCES permissions(id)
 );
 
-insert into user_permissions (id_user, id_permission) values (1, 1), (2, 6);
+insert into user_permissions (id_user, id_permission) values (1, 1), (2, 2);
 
-select p.id as id, p.name as name from permissions as p
-				inner join user_permissions as u on p.id = u.id_permission
-				where u.id_user = 1

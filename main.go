@@ -31,5 +31,4 @@ func main() {
 	if err := grpcServer.Serve(listener); err != nil {
 		panic(err.Error())
 	}
-
 }
