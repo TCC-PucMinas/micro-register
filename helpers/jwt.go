@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"os"
 	"time"
 
 	"github.com/TCC-PucMinas/micro-register/db"
@@ -14,7 +13,7 @@ import (
 var (
 	ErrInvalidToken = errors.New("token is invalid")
 	ErrExpiredToken = errors.New("token has expired")
-	hmacSecret      = os.Getenv("HMAC_SECRET") // []byte("e6428fcb1ea69f53bec5a2b4b817937b75db71d23207c6a6fb4b5cd2c9b9b43f")
+	hmacSecret      = []byte("e6428fcb1ea69f53bec5a2b4b817937b75db71d23207c6a6fb4b5cd2c9b9b43f") // os.Getenv("HMAC_SECRET") //
 )
 
 var keyTokenRedis = "auth-jwt"

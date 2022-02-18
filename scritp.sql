@@ -1,4 +1,4 @@
-
+drop database db_register;
 create database db_register;
 
 use db_register;
@@ -21,7 +21,7 @@ create table routes (
 	FOREIGN KEY (id_permission) REFERENCES permissions(id)
 );
 
-insert INTO routes (`path`, method, id_permission) values ("/api/user", "GET", 1);
+insert INTO routes (`path`, method, id_permission) values ("/api/user", "GET", 1), ("/api/client", "GET", 1), ("/api/logistic/calculate", "POST", 1);
 
 create table addresses (
 	id int unsigned auto_increment primary key,

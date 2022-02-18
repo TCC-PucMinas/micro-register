@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"log"
 	"strconv"
 
 	"github.com/TCC-PucMinas/micro-register/communicate"
@@ -178,8 +177,6 @@ func (s *AuthenticateServer) ForgotPassword(ctx context.Context, request *commun
 
 	user.Forgot = generate
 	if valid, err := user.UpdateUserForgotById(); err != nil || !valid {
-		log.Println("err", err)
-		log.Println("valid", valid)
 		return res, errors.New("Error update user set hash forgot!")
 	}
 
