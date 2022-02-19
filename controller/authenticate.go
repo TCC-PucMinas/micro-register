@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"log"
 	"strconv"
 
 	"github.com/TCC-PucMinas/micro-register/communicate"
@@ -31,11 +32,11 @@ func (s *AuthenticateServer) Authenticate(ctx context.Context, request *communic
 	user, err := auth.GetOneUserByEmail()
 
 	if err != nil {
-		return res, err
+		return res, errors.New("Login ou senha incorreto!")
 	}
 
 	if !helpers.CompareHashs(user.Password, auth.Password) {
-		return res, errors.New("Login e senha incorreto!")
+		return res, errors.New("Login ou senha incorreto!")
 	}
 
 	id := strconv.Itoa(int(user.Id))
@@ -193,6 +194,8 @@ func (s *AuthenticateServer) ForgotPassword(ctx context.Context, request *commun
 	email.Forgot = generate
 	email.From = user.Email
 	email.Subject = "Esqueceu sua senha ?"
+
+	log.Println("email", email)
 
 	if err := nats.PublishAlertEmail(senderNatsEmail, &email); err != nil {
 		return res, errors.New("Error communicate service alert!")

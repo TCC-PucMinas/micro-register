@@ -84,7 +84,7 @@ func (auth *Authenticate) GetOneUserByEmail() (User, error) {
 	}
 
 	if user.Id == 0 {
-		return user, errors.New("Not found key")
+		return user, errors.New("User not found!")
 	}
 
 	_ = setRedisCacheAuthenticate(user)
