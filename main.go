@@ -6,13 +6,12 @@ import (
 	"github.com/TCC-PucMinas/micro-register/controller"
 	"google.golang.org/grpc"
 	"net"
-	"os"
 )
 
 func main() {
 
-	port := os.Getenv("PORT")
-	//port := 5000
+	// port := os.Getenv("PORT")
+	port := 5000
 	host := fmt.Sprintf("0.0.0.0:%v", port)
 
 	listener, err := net.Listen("tcp", host)

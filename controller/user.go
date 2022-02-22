@@ -84,7 +84,7 @@ func (s *UserCommunicate) CreateUser(ctx context.Context, request *communicate.C
 		Subject:    "Ative sua conta",
 	}
 
-	nats.PublishAlertEmail(senderNatsActiveCode, emailSender)
+	_ = nats.PublishAlertEmail(senderNatsActiveCode, emailSender)
 
 	defer nats.Nats.Close()
 
@@ -142,6 +142,40 @@ func (s *UserCommunicate) ActivatedUserCodeActive(ctxt context.Context, request 
 	}
 
 	res.Actived = true
+
+	return res, nil
+}
+
+func (s *UserCommunicate) ListAllUserPaginateByName(ctx context.Context, request *communicate.ListAllUserPaginateByNameRequest) (*communicate.ListAllUserPaginateByNameResponse, error) {
+	res := &communicate.ListAllUserPaginateByNameResponse{}
+
+	user := model.User{}
+
+	users, total, err := user.GetByNameLike(request.Name, request.Page, request.Limit)
+
+	if err != nil {
+		return res, err
+	}
+
+	data := &communicate.Data{}
+	for _, c := range users {
+		user := &communicate.User{}
+		user.Id = c.Id
+		user.FirstName = c.FirstName
+		user.LastName = c.LastName
+		user.Email = c.Email
+		user.Phone = c.Phone
+		user.Busines = c.Business
+		user.CpfCpnj = c.CpfCnpj
+		user.Permission = c.Permission.Name
+		data.Users = append(data.Users, user)
+	}
+
+	res.Total = total
+	res.Page = request.Page
+	res.Limit = request.Limit
+
+	res.Data = data
 
 	return res, nil
 }

@@ -51,9 +51,38 @@ message ActiveCodeUserResponse {
   bool actived = 1;
 }
 
+message ListAllUserPaginateByNameRequest {
+  int64 page = 1;
+  int64 limit = 2;
+  string name = 3;
+}
+
+message User {
+  int64 id = 1;
+  string first_name = 2;
+  string last_name = 3;
+  string phone = 4;
+  string cpf_cpnj = 5;
+  string busines = 6;
+  string email = 7;
+  string permission = 8;
+}
+
+message Data {
+  repeated User users = 1;
+}
+
+message ListAllUserPaginateByNameResponse {
+  Data data = 1;
+  int64 page = 2;
+  int64 limit = 3;
+  int64 total = 4;
+}
+
 service UserCommunicate {
   rpc CreateUser (CreateUserRequest) returns (CreateUserResponse) {};
   rpc ValidateUserExist (ValidateUserExistRequest) returns (ValidateUserExistResponse) {};
   rpc ValidateCodeActive (ValidateCodeActiveRequest) returns (ValidateCodeActiveResponse) {};
   rpc ActivatedUserCodeActive (ActiveCodeUserRequest) returns (ActiveCodeUserResponse) {};
+  rpc ListAllUserPaginateByName(ListAllUserPaginateByNameRequest) returns (ListAllUserPaginateByNameResponse) {};
 }
