@@ -35,7 +35,11 @@ type User struct {
 }
 
 func setRedisCacheUserByForgotCode(user *User) error {
-	redis := db.ConnectDatabaseRedis()
+	redis, err := db.ConnectDatabaseRedis()
+
+	if err != nil {
+		return err
+	}
 
 	marshal, err := json.Marshal(user)
 
@@ -50,7 +54,11 @@ func setRedisCacheUserByForgotCode(user *User) error {
 func getRedisCacheUserByForgotCode(forgot string) (User, error) {
 	user := User{}
 
-	redis := db.ConnectDatabaseRedis()
+	redis, err := db.ConnectDatabaseRedis()
+
+	if err != nil {
+		return user, err
+	}
 
 	key := fmt.Sprintf("%v - %v", keyTokenRedisUserByCodeForgot, forgot)
 
@@ -123,7 +131,11 @@ func (u *User) UpdateUserForgotById() (bool, error) {
 }
 
 func setRedisCacheUserByCodeActive(user *User) error {
-	redis := db.ConnectDatabaseRedis()
+	redis, err := db.ConnectDatabaseRedis()
+
+	if err != nil {
+		return err
+	}
 
 	marshal, err := json.Marshal(user)
 
@@ -138,7 +150,11 @@ func setRedisCacheUserByCodeActive(user *User) error {
 func getRedisCacheUserByCodeActive(u *User) (User, error) {
 	user := User{}
 
-	redis := db.ConnectDatabaseRedis()
+	redis, err := db.ConnectDatabaseRedis()
+
+	if err != nil {
+		return user, err
+	}
 
 	key := fmt.Sprintf("%v - %v -%v", keyTokenRedisUserByCodeActive, u.CodeActive, u.Active)
 
@@ -156,8 +172,11 @@ func getRedisCacheUserByCodeActive(u *User) (User, error) {
 }
 
 func setRedisCacheUserByEmailAndCpf_Cpnj(user *User) error {
-	redis := db.ConnectDatabaseRedis()
+	redis, err := db.ConnectDatabaseRedis()
 
+	if err != nil {
+		return err
+	}
 	marshal, err := json.Marshal(user)
 
 	if err != nil {
@@ -171,7 +190,11 @@ func setRedisCacheUserByEmailAndCpf_Cpnj(user *User) error {
 func getRedisCacheUserByEmailAndCpf_Cpnj(u *User) (User, error) {
 	user := User{}
 
-	redis := db.ConnectDatabaseRedis()
+	redis, err := db.ConnectDatabaseRedis()
+
+	if err != nil {
+		return user, err
+	}
 
 	key := fmt.Sprintf("%v - %v -%v", keyTokenRedisUserByEmailAndCpf_Cpnj, user.Email, user.CpfCnpj)
 
@@ -191,7 +214,11 @@ func getRedisCacheUserByEmailAndCpf_Cpnj(u *User) (User, error) {
 func getClientRedisCacheGetByNameLike(name string, page, limit int64) ([]User, error) {
 	var users []User
 
-	redis := db.ConnectDatabaseRedis()
+	redis, err := db.ConnectDatabaseRedis()
+
+	if err != nil {
+		return users, err
+	}
 
 	key := fmt.Sprintf("%v - %v -%v -%v", keyUserRedisGetByNameAndPage, name, page, limit)
 
@@ -209,7 +236,11 @@ func getClientRedisCacheGetByNameLike(name string, page, limit int64) ([]User, e
 }
 
 func setRedisCacheClientGetByName(name string, page, limit int64, clients []User) error {
-	redis := db.ConnectDatabaseRedis()
+	redis, err := db.ConnectDatabaseRedis()
+
+	if err != nil {
+		return err
+	}
 
 	marshal, err := json.Marshal(clients)
 

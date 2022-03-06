@@ -20,7 +20,11 @@ type Route struct {
 }
 
 func setRedisCacheRouteByPathAndUserId(route *Route) error {
-	db := db.ConnectDatabaseRedis()
+	db, err := db.ConnectDatabaseRedis()
+
+	if err != nil {
+		return err
+	}
 
 	json, err := json.Marshal(route)
 
@@ -35,7 +39,11 @@ func setRedisCacheRouteByPathAndUserId(route *Route) error {
 func getRedisCacheRouteByPathAndUserId(userId string) (Route, error) {
 	route := Route{}
 
-	redis := db.ConnectDatabaseRedis()
+	redis, err := db.ConnectDatabaseRedis()
+
+	if err != nil {
+		return route, err
+	}
 
 	key := fmt.Sprintf("%v - %v", keyTokenRedisRouteByPathAndUserId, userId)
 
@@ -64,9 +72,9 @@ func (r *Route) GetOneRouteByPathAndUserId(id string) error {
 	query := `select r.id, r.path, r.method from routes as r
 					join permissions as p on r.id_permission = p.id
 					join user_permissions as u on u.id_user = ?
-				where r.path = ? limit 1;`
+				where r.path = ? and r.method = ? limit 1;`
 
-	requestConfig, err := sql.Query(query, id, r.Path)
+	requestConfig, err := sql.Query(query, id, r.Path, r.Method)
 
 	if err != nil {
 		return err

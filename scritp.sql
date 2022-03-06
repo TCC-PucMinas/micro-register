@@ -10,7 +10,7 @@ create table permissions (
     `created_at` datetime default now()
 );
 
-INSERT INTO permissions ( name ) VALUES ('CLIENT'), ('PROVEEDOR'), ('COLLABORATOR');
+INSERT INTO permissions ( name ) VALUES ('CLIENT'), ('COLLABORATOR');
 
 create table routes (
     id int unsigned auto_increment primary key,
@@ -21,7 +21,30 @@ create table routes (
 	FOREIGN KEY (id_permission) REFERENCES permissions(id)
 );
 
-insert INTO routes (`path`, method, id_permission) values ("/api/user", "GET", 1), ("/api/client", "GET", 1), ("/api/logistic/calculate", "POST", 1);
+insert INTO routes (`path`, method, id_permission) values
+      ("/api/user", "GET", 1),
+      ("/api/client", "GET", 1),
+      ("/api/client/:id", "GET", 1),
+      ("/api/destination", "GET", 1),
+      ("/api/destination/client/:id", "GET", 1),
+      ("/api/destination/:id", "GET", 1),
+      ("/api/destination/:id", "DELETE", 1),
+      ("/api/deposit", "GET", 1),
+      ("/api/deposit/:id", "GET", 1),
+      ("/api/deposit/:id", "PUT", 1),
+      ("/api/deposit/:id", "DELETE", 1),
+      ("/api/deposit", "POST", 1),
+      ("/api/carrying", "GET", 1),
+      ("/api/carrying/:id", "GET", 1),
+      ("/api/carrying/:id", "PUT", 1),
+      ("/api/carrying/:id", "DELETE", 1),
+      ("/api/product", "POST", 1),
+      ("/api/product", "GET", 1),
+      ("/api/product/:id", "GET", 1),
+      ("/api/product/:id", "PUT", 1),
+      ("/api/product/:id", "DELETE", 1),
+      ("/api/product", "POST", 1),
+      ("/api/logistic/calculate", "POST", 1);
 
 create table addresses (
 	id int unsigned auto_increment primary key,
@@ -63,7 +86,7 @@ create table user_addresses (
 
 insert into users (phone, business, cpf_cnpj, email, `password`, first_name, last_name) values 
 	('8897613741', 'desenvolvedor', '03506838326', 'higordiegoti@gmail.com', '$2a$04$SjtifNEohNa/JzxYO3m3E.Vtx/rgqbp7KnYJEzf89yhH.JD1AjY5u', 'higor', 'pinheiro'),
-    ('8897613741', 'desenvolvedor', '03506838326', 'provider@gmail.com', '$2a$04$SjtifNEohNa/JzxYO3m3E.Vtx/rgqbp7KnYJEzf89yhH.JD1AjY5u', 'provider', 'provider');
+    ('8897613741', 'desenvolvedor', '03506838326', 'colaborator@gmail.com', '$2a$04$SjtifNEohNa/JzxYO3m3E.Vtx/rgqbp7KnYJEzf89yhH.JD1AjY5u', 'colaborator', 'colaborator');
 
 insert into user_addresses (id_user, id_address) values (1, 1), (2, 2);
 

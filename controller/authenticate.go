@@ -72,10 +72,6 @@ func (s *AuthenticateServer) Authenticate(ctx context.Context, request *communic
 		}
 	}
 
-	if err := jwt.SetTokenCache(); err != nil {
-		return res, nil
-	}
-
 	res.UserResponse = userResponse
 	return res, nil
 }
@@ -87,14 +83,9 @@ func (s *AuthenticateServer) ValidateToken(ctx context.Context, request *communi
 		return res, errors.New("Token invalid!")
 	}
 
-	jwt := helpers.JwtTokens{}
-
-	if text, err := jwt.GetToken(request.AccessToken); err != nil || len(text) < 2 {
-		return res, errors.New("Token invalid!")
-	}
-
 	route := model.Route{}
 	route.Path = request.Path
+	route.Method = request.Method
 	if claim, err := helpers.ExtractJwt(request.AccessToken); err != nil {
 		return res, errors.New("Token invalid!")
 	} else {
@@ -130,10 +121,6 @@ func (s *AuthenticateServer) RefreshToken(ctx context.Context, request *communic
 	} else {
 		res.AccessToken = jwt.AccessToken
 		res.RefreshToken = jwt.RefreshToken
-
-		if err := jwt.SetTokenCache(); err != nil {
-			return res, err
-		}
 	}
 	return res, nil
 }

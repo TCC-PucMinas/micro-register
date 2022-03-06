@@ -6,7 +6,7 @@ import (
 
 var instanceDBRedis *redis.Client
 
-func ConnectDatabaseRedis() *redis.Client {
+func ConnectDatabaseRedis() (*redis.Client, error) {
 
 	if instanceDBRedis != nil {
 		if _, err := instanceDBRedis.Ping().Result(); err != nil {
@@ -22,16 +22,20 @@ func ConnectDatabaseRedis() *redis.Client {
 		})
 
 		if _, err := client.Ping().Result(); err != nil {
-			panic(err.Error())
+			instanceDBRedis = nil
+			return instanceDBRedis, err
 		}
 
 		instanceDBRedis = client
 	}
 
-	return instanceDBRedis
+	return instanceDBRedis, nil
 }
 
 func RemoveCacheRedisByKey(key string) {
-	db := ConnectDatabaseRedis()
+	db, err := ConnectDatabaseRedis()
+	if err != nil {
+		return
+	}
 	db.Del(key)
 }

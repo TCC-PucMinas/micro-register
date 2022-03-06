@@ -19,7 +19,11 @@ type Permission struct {
 }
 
 func setRedisCacheRolesByUserId(permission []Permission) error {
-	db := db.ConnectDatabaseRedis()
+	db, err := db.ConnectDatabaseRedis()
+
+	if err != nil {
+		return err
+	}
 
 	json, err := json.Marshal(permission)
 
@@ -34,7 +38,11 @@ func setRedisCacheRolesByUserId(permission []Permission) error {
 func getRedisCacheRolesByUserId(userId int64) ([]Permission, error) {
 	userPermissons := []Permission{}
 
-	redis := db.ConnectDatabaseRedis()
+	redis, err := db.ConnectDatabaseRedis()
+
+	if err != nil {
+		return userPermissons, err
+	}
 
 	key := fmt.Sprintf("%v - %v", keyTokenRedisRoleByUserIdId, userId)
 

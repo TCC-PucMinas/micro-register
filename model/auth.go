@@ -20,7 +20,11 @@ type Authenticate struct {
 }
 
 func setRedisCacheAuthenticate(user User) error {
-	db := db.ConnectDatabaseRedis()
+	db, err := db.ConnectDatabaseRedis()
+
+	if err != nil {
+		return err
+	}
 
 	json, err := json.Marshal(user)
 
@@ -35,7 +39,11 @@ func setRedisCacheAuthenticate(user User) error {
 func getRedisCacheAuthenticate(email string) (User, error) {
 	user := User{}
 
-	redis := db.ConnectDatabaseRedis()
+	redis, err := db.ConnectDatabaseRedis()
+
+	if err != nil {
+		return user, err
+	}
 
 	key := fmt.Sprintf("%v - %v", keyTokenRedisAuthByEmail, email)
 

@@ -1,12 +1,9 @@
 package helpers
 
 import (
-	"encoding/json"
 	"errors"
-	"fmt"
 	"time"
 
-	"github.com/TCC-PucMinas/micro-register/db"
 	"github.com/golang-jwt/jwt"
 )
 
@@ -15,8 +12,6 @@ var (
 	ErrExpiredToken = errors.New("token has expired")
 	hmacSecret      = []byte("e6428fcb1ea69f53bec5a2b4b817937b75db71d23207c6a6fb4b5cd2c9b9b43f") //os.Getenv("HMAC_SECRET") //
 )
-
-var keyTokenRedis = "auth-jwt"
 
 var timeToken = 30
 var timeRefresh = 1000
@@ -30,31 +25,6 @@ type Claims struct {
 type JwtTokens struct {
 	AccessToken  string `json:"access_token"`
 	RefreshToken string `json:"refresh_token"`
-}
-
-func (jwt *JwtTokens) GetToken(jwtUser string) (string, error) {
-	db := db.ConnectDatabaseRedis()
-
-	key := fmt.Sprintf("%v - %v", keyTokenRedis, jwtUser)
-
-	if value, err := db.Get(key).Result(); err != nil {
-		return "", err
-	} else {
-		return value, nil
-	}
-}
-
-func (jwt *JwtTokens) SetTokenCache() error {
-	db := db.ConnectDatabaseRedis()
-
-	json, err := json.Marshal(jwt)
-
-	if err != nil {
-		return err
-	}
-	key := fmt.Sprintf("%v - %v", keyTokenRedis, jwt.AccessToken)
-
-	return db.Set(key, json, 0).Err()
 }
 
 func (c *Claims) GenerateClains(id string, sub int, minutes int64) {

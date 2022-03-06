@@ -24,7 +24,7 @@ func main() {
 	communicate.RegisterAuthenticateCommunicateServer(grpcServer, &controller.AuthenticateServer{})
 	communicate.RegisterUserCommunicateServer(grpcServer, &controller.UserCommunicate{})
 
-	fmt.Printf("[x] - Server logistic listen http://localhost:%v\n", port)
+	fmt.Printf("[x] - Server register listen http://localhost:%v\n", port)
 
 	if err := grpcServer.Serve(listener); err != nil {
 		panic(err.Error())
