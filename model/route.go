@@ -2,15 +2,16 @@ package model
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
-	"strconv"
 	"time"
 
 	"github.com/TCC-PucMinas/micro-register/db"
 )
 
-var keyTokenRedisRouteByPathAndUserId = "key-route-path-and-by-user-id"
+var (
+	keyTokenRedisRouteByPathAndUserId = "key-route-path-and-by-user-id"
+	keyTimeRoute                      = time.Hour * 1
+)
 
 type Route struct {
 	Id         int64      `json:"id"`
@@ -19,7 +20,7 @@ type Route struct {
 	Permission Permission `json:"permission"`
 }
 
-func setRedisCacheRouteByPathAndUserId(route *Route) error {
+func setRedisCacheRouteByPathAndUserId(userId string, route *Route) error {
 	db, err := db.ConnectDatabaseRedis()
 
 	if err != nil {
@@ -31,9 +32,9 @@ func setRedisCacheRouteByPathAndUserId(route *Route) error {
 	if err != nil {
 		return err
 	}
-	key := fmt.Sprintf("%v - %v", keyTokenRedisRouteByPathAndUserId, json)
+	key := fmt.Sprintf("%v - %v", keyTokenRedisRouteByPathAndUserId, userId)
 
-	return db.Set(key, json, 1*time.Hour).Err()
+	return db.Set(key, json, keyTimeRoute).Err()
 }
 
 func getRedisCacheRouteByPathAndUserId(userId string) (Route, error) {
@@ -63,7 +64,9 @@ func getRedisCacheRouteByPathAndUserId(userId string) (Route, error) {
 func (r *Route) GetOneRouteByPathAndUserId(id string) error {
 
 	if route, err := getRedisCacheRouteByPathAndUserId(id); err == nil {
-		r = &route
+		r.Id = route.Id
+		r.Method = route.Method
+		r.Path = route.Path
 		return nil
 	}
 
@@ -81,18 +84,19 @@ func (r *Route) GetOneRouteByPathAndUserId(id string) error {
 	}
 
 	for requestConfig.Next() {
-		var id, path, method string
+		var path, method string
+		var id int64
 		_ = requestConfig.Scan(&id, &path, &method)
-		i64, _ := strconv.ParseInt(id, 10, 64)
-		r.Id = i64
-		r.Path = path
-		r.Method = method
+		if id != 0 {
+			r.Id = id
+			r.Path = path
+			r.Method = method
+		}
 	}
 
-	if r.Id == 0 {
-		return errors.New("Not found key")
+	if r.Id != 0 {
+		_ = setRedisCacheRouteByPathAndUserId(id, r)
 	}
 
-	_ = setRedisCacheRouteByPathAndUserId(r)
 	return nil
 }

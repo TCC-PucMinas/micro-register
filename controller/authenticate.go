@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"log"
 	"strconv"
 
 	"github.com/TCC-PucMinas/micro-register/communicate"
@@ -31,7 +30,7 @@ func (s *AuthenticateServer) Authenticate(ctx context.Context, request *communic
 
 	user, err := auth.GetOneUserByEmail()
 
-	if err != nil {
+	if err != nil || user.Id == 0 {
 		return res, errors.New("Login ou senha incorreto!")
 	}
 
@@ -89,7 +88,7 @@ func (s *AuthenticateServer) ValidateToken(ctx context.Context, request *communi
 	if claim, err := helpers.ExtractJwt(request.AccessToken); err != nil {
 		return res, errors.New("Token invalid!")
 	} else {
-		if err := route.GetOneRouteByPathAndUserId(claim.Username); err != nil {
+		if err := route.GetOneRouteByPathAndUserId(claim.Username); err != nil && route.Id != 0 {
 			return res, errors.New("Not permission!")
 		}
 	}
@@ -126,14 +125,15 @@ func (s *AuthenticateServer) RefreshToken(ctx context.Context, request *communic
 }
 
 func (s *AuthenticateServer) ValidateEmail(ctx context.Context, request *communicate.EmailRequest) (*communicate.EmailResponse, error) {
-	res := &communicate.EmailResponse{}
+	res := &communicate.EmailResponse{
+		Valid: false,
+	}
 
 	auth := model.Authenticate{
 		Email: request.Email,
 	}
 
-	if _, err := auth.GetOneUserByEmail(); err != nil {
-		res.Valid = false
+	if u, err := auth.GetOneUserByEmail(); err != nil || u.Id == 0 {
 		return res, nil
 	}
 
@@ -164,6 +164,7 @@ func (s *AuthenticateServer) ForgotPassword(ctx context.Context, request *commun
 	}
 
 	user.Forgot = generate
+
 	if valid, err := user.UpdateUserForgotById(); err != nil || !valid {
 		return res, errors.New("Error update user set hash forgot!")
 	}
@@ -182,8 +183,6 @@ func (s *AuthenticateServer) ForgotPassword(ctx context.Context, request *commun
 	email.From = user.Email
 	email.Subject = "Esqueceu sua senha ?"
 
-	log.Println("email", email)
-
 	if err := nats.PublishAlertEmail(senderNatsEmail, &email); err != nil {
 		return res, errors.New("Error communicate service alert!")
 	}
@@ -200,7 +199,7 @@ func (s *AuthenticateServer) ValidateForgotCode(ctx context.Context, request *co
 
 	user.Forgot = request.Forgot
 
-	if err := user.GetOneUserByForgotCode(); err != nil {
+	if err := user.GetOneUserByForgotCode(); err != nil || user.Id == 0 {
 		return res, errors.New("Forgot code invalid!")
 	}
 

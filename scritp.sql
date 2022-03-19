@@ -21,7 +21,7 @@ create table routes (
 );
 
 insert INTO routes (`path`, method, id_permission) values
-      ("/api/user", "GET", 1),
+      ("/api/users", "GET", 1),
       ("/api/client", "GET", 1),
       ("/api/client/:id", "GET", 1),
       ("/api/destination", "GET", 1),
@@ -43,6 +43,18 @@ insert INTO routes (`path`, method, id_permission) values
       ("/api/product/:id", "PUT", 1),
       ("/api/product/:id", "DELETE", 1),
       ("/api/product", "POST", 1),
+      ("/api/truck", "POST", 1),
+      ("/api/truck/carry/:id", "GET", 1),
+      ("/api/truck/:id", "GET", 1),
+      ("/api/truck/:id", "PUT", 1),
+      ("/api/truck/:id", "DELETE", 1),
+      ("/api/truck", "POST", 1),
+      ("/api/driver", "POST", 1),
+      ("/api/driver", "GET", 1),
+      ("/api/driver/:id", "GET", 1),
+      ("/api/driver/:id", "PUT", 1),
+      ("/api/driver/:id", "DELETE", 1),
+      ("/api/driver", "POST", 1),
       ("/api/logistic/calculate", "POST", 1);
 
 create table addresses (

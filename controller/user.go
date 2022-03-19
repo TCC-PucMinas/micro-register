@@ -24,8 +24,9 @@ func (s *UserCommunicate) CreateUser(ctx context.Context, request *communicate.C
 	user.FirstName = request.FirstName
 	user.LastName = request.LastName
 	user.Email = request.Email
-	user.Business = request.Busines
-	user.CpfCnpj = request.CpfCpnj
+	user.Phone = request.Phone
+	user.Business = request.Business
+	user.CpfCnpj = request.CpfCnpj
 
 	password, err := helpers.GenerateHashSalt(request.Password)
 
@@ -100,7 +101,7 @@ func (s *UserCommunicate) ValidateUserExist(ctx context.Context, request *commun
 		CpfCnpj: request.CpfCnpj,
 	}
 
-	if _ = user.GetOneUserByEmailAndCpf_Cpnj(); user.Id != 0 {
+	if err := user.GetOneUserByEmailAndCpf_Cpnj(); err != nil || user.Id != 0 {
 		return res, errors.New("Email or cpf already registered!")
 	}
 
@@ -132,11 +133,12 @@ func (s *UserCommunicate) ActivatedUserCodeActive(ctxt context.Context, request 
 		Active:     0,
 	}
 
-	if err := user.GetOneUserByCodeActive(); err != nil {
+	if err := user.GetOneUserByCodeActive(); err != nil || user.Id == 0 {
 		return res, errors.New("Code invalid!")
 	}
 
 	user.Active = 1
+
 	if err := user.UpdateUserSetActiveUser(); err != nil {
 		return res, err
 	}
@@ -165,8 +167,8 @@ func (s *UserCommunicate) ListAllUserPaginateByName(ctx context.Context, request
 		user.LastName = c.LastName
 		user.Email = c.Email
 		user.Phone = c.Phone
-		user.Busines = c.Business
-		user.CpfCpnj = c.CpfCnpj
+		user.Business = c.Business
+		user.CpfCnpj = c.CpfCnpj
 		user.Permission = c.Permission.Name
 		data.Users = append(data.Users, user)
 	}

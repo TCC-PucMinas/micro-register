@@ -3,7 +3,6 @@ package model
 import (
 	"encoding/json"
 	"fmt"
-	"strconv"
 	"time"
 
 	"github.com/TCC-PucMinas/micro-register/db"
@@ -11,6 +10,7 @@ import (
 
 var (
 	keyTokenRedisRoleByUserIdId = "key-role-by-id"
+	keyTimePermission           = time.Hour * 1
 )
 
 type Permission struct {
@@ -18,7 +18,7 @@ type Permission struct {
 	Name string `json:"name"`
 }
 
-func setRedisCacheRolesByUserId(permission []Permission) error {
+func setRedisCacheRolesByUserId(userId int64, permission []Permission) error {
 	db, err := db.ConnectDatabaseRedis()
 
 	if err != nil {
@@ -30,9 +30,9 @@ func setRedisCacheRolesByUserId(permission []Permission) error {
 	if err != nil {
 		return err
 	}
-	key := fmt.Sprintf("%v - %v", keyTokenRedisRoleByUserIdId, json)
+	key := fmt.Sprintf("%v - %v", keyTokenRedisRoleByUserIdId, userId)
 
-	return db.Set(key, json, 1*time.Hour).Err()
+	return db.Set(key, json, keyTimePermission).Err()
 }
 
 func getRedisCacheRolesByUserId(userId int64) ([]Permission, error) {
@@ -82,16 +82,19 @@ func GetAllRoles(id int64) ([]Permission, error) {
 	}
 
 	for requestConfig.Next() {
-		var id, name string
+		var name string
+		var id int64
 		_ = requestConfig.Scan(&id, &name)
-		i64, _ := strconv.ParseInt(id, 10, 64)
-		p.Id = i64
-		p.Name = name
-
-		userPermissons = append(userPermissons, p)
+		if id != 0 {
+			p.Id = id
+			p.Name = name
+			userPermissons = append(userPermissons, p)
+		}
 	}
 
-	_ = setRedisCacheRolesByUserId(userPermissons)
+	if len(userPermissons) > 0 {
+		_ = setRedisCacheRolesByUserId(id, userPermissons)
+	}
 
 	return userPermissons, nil
 }

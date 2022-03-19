@@ -15,8 +15,8 @@ message CreateUserRequest  {
   string first_name = 1;
   string last_name = 2;
   string phone = 3;
-  string cpf_cpnj = 4;
-  string busines = 5;
+  string cpf_cnpj = 4;
+  string business = 5;
   string password = 6;
   string email = 7;
   repeated Address address = 8;
@@ -62,8 +62,8 @@ message User {
   string first_name = 2;
   string last_name = 3;
   string phone = 4;
-  string cpf_cpnj = 5;
-  string busines = 6;
+  string cpf_cnpj = 5;
+  string business = 6;
   string email = 7;
   string permission = 8;
 }

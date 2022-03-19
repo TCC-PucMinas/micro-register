@@ -2,11 +2,11 @@ package model
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
-	"github.com/TCC-PucMinas/micro-register/helpers"
 	"strconv"
 	"time"
+
+	"github.com/TCC-PucMinas/micro-register/helpers"
 
 	"github.com/TCC-PucMinas/micro-register/db"
 )
@@ -16,6 +16,7 @@ var (
 	keyTokenRedisUserByCodeActive       = "key-user-by-active-code"
 	keyTokenRedisUserByEmailAndCpf_Cpnj = "key-user-by-email-and-cpf_cnpj"
 	keyUserRedisGetByNameAndPage        = "key-user-by-name-and-page"
+	keyTimeUser                         = time.Hour * 1
 )
 
 type User struct {
@@ -48,7 +49,7 @@ func setRedisCacheUserByForgotCode(user *User) error {
 	}
 	key := fmt.Sprintf("%v - %v", keyTokenRedisUserByCodeForgot, user.Forgot)
 
-	return redis.Set(key, marshal, 1*time.Hour).Err()
+	return redis.Set(key, marshal, keyTimeUser).Err()
 }
 
 func getRedisCacheUserByForgotCode(forgot string) (User, error) {
@@ -78,13 +79,13 @@ func getRedisCacheUserByForgotCode(forgot string) (User, error) {
 func (u *User) GetOneUserByForgotCode() error {
 
 	if user, err := getRedisCacheUserByForgotCode(u.Forgot); err == nil {
-		u = &user
+		u.Id = user.Id
 		return nil
 	}
 
 	sql := db.ConnectDatabase()
 
-	query := `select id  from users where forgot = ? limit 1;`
+	query := `select id from users where forgot = ? limit 1;`
 
 	requestConfig, err := sql.Query(query, u.Forgot)
 
@@ -93,17 +94,17 @@ func (u *User) GetOneUserByForgotCode() error {
 	}
 
 	for requestConfig.Next() {
-		var id string
+		var id int64
 		_ = requestConfig.Scan(&id)
-		i64, _ := strconv.ParseInt(id, 10, 64)
-		u.Id = i64
+		if id != 0 {
+			u.Id = id
+		}
+
 	}
 
-	if u.Id == 0 {
-		return errors.New("Not found key")
+	if u.Id != 0 {
+		_ = setRedisCacheUserByForgotCode(u)
 	}
-
-	_ = setRedisCacheUserByForgotCode(u)
 
 	return nil
 }
@@ -125,8 +126,6 @@ func (u *User) UpdateUserForgotById() (bool, error) {
 		return false, e
 	}
 
-	_ = setRedisCacheUserByForgotCode(u)
-
 	return true, nil
 }
 
@@ -144,7 +143,7 @@ func setRedisCacheUserByCodeActive(user *User) error {
 	}
 	key := fmt.Sprintf("%v - %v - %v", keyTokenRedisUserByCodeActive, user.CodeActive, user.Active)
 
-	return redis.Set(key, marshal, 1*time.Hour).Err()
+	return redis.Set(key, marshal, keyTimeUser).Err()
 }
 
 func getRedisCacheUserByCodeActive(u *User) (User, error) {
@@ -156,7 +155,7 @@ func getRedisCacheUserByCodeActive(u *User) (User, error) {
 		return user, err
 	}
 
-	key := fmt.Sprintf("%v - %v -%v", keyTokenRedisUserByCodeActive, u.CodeActive, u.Active)
+	key := fmt.Sprintf("%v - %v - %v", keyTokenRedisUserByCodeActive, u.CodeActive, u.Active)
 
 	value, err := redis.Get(key).Result()
 
@@ -182,9 +181,10 @@ func setRedisCacheUserByEmailAndCpf_Cpnj(user *User) error {
 	if err != nil {
 		return err
 	}
+
 	key := fmt.Sprintf("%v - %v - %v", keyTokenRedisUserByEmailAndCpf_Cpnj, user.Email, user.CpfCnpj)
 
-	return redis.Set(key, marshal, 1*time.Hour).Err()
+	return redis.Set(key, marshal, keyTimeUser).Err()
 }
 
 func getRedisCacheUserByEmailAndCpf_Cpnj(u *User) (User, error) {
@@ -196,7 +196,7 @@ func getRedisCacheUserByEmailAndCpf_Cpnj(u *User) (User, error) {
 		return user, err
 	}
 
-	key := fmt.Sprintf("%v - %v -%v", keyTokenRedisUserByEmailAndCpf_Cpnj, user.Email, user.CpfCnpj)
+	key := fmt.Sprintf("%v - %v - %v", keyTokenRedisUserByEmailAndCpf_Cpnj, u.Email, u.CpfCnpj)
 
 	value, err := redis.Get(key).Result()
 
@@ -220,7 +220,7 @@ func getClientRedisCacheGetByNameLike(name string, page, limit int64) ([]User, e
 		return users, err
 	}
 
-	key := fmt.Sprintf("%v - %v -%v -%v", keyUserRedisGetByNameAndPage, name, page, limit)
+	key := fmt.Sprintf("%v - %v - %v - %v", keyUserRedisGetByNameAndPage, name, page, limit)
 
 	value, err := redis.Get(key).Result()
 
@@ -248,15 +248,15 @@ func setRedisCacheClientGetByName(name string, page, limit int64, clients []User
 		return err
 	}
 
-	key := fmt.Sprintf("%v - %v -%v -%v", keyUserRedisGetByNameAndPage, name, page, limit)
+	key := fmt.Sprintf("%v - %v - %v - %v", keyUserRedisGetByNameAndPage, name, page, limit)
 
-	return redis.Set(key, marshal, 1*time.Hour).Err()
+	return redis.Set(key, marshal, keyTimeUser).Err()
 }
 
 func (u *User) GetOneUserByCodeActive() error {
 
 	if user, err := getRedisCacheUserByCodeActive(u); err == nil {
-		u = &user
+		u.Id = user.Id
 		return nil
 	}
 
@@ -271,17 +271,17 @@ func (u *User) GetOneUserByCodeActive() error {
 	}
 
 	for user.Next() {
-		var id string
+		var id int64
 		_ = user.Scan(&id)
-		i64, _ := strconv.ParseInt(id, 10, 64)
-		u.Id = i64
+		if id != 0 {
+			u.Id = id
+		}
 	}
 
-	if u.Id == 0 {
-		return errors.New("Not found key")
+	if u.Id != 0 {
+		_ = setRedisCacheUserByCodeActive(u)
 	}
 
-	_ = setRedisCacheUserByCodeActive(u)
 	return nil
 }
 
@@ -302,7 +302,7 @@ func (u *User) UpdateUserSetActiveUser() error {
 		return e
 	}
 
-	key := fmt.Sprintf("%v - %v - %v", keyTokenRedisUserByCodeActive, u.CodeActive, 1)
+	key := fmt.Sprintf("%v - %v - %v", keyTokenRedisUserByCodeActive, u.CodeActive, 0)
 
 	db.RemoveCacheRedisByKey(key)
 
@@ -325,6 +325,9 @@ func (u *User) UpdateUserSetNewPasswordByForgot() error {
 	if e != nil {
 		return e
 	}
+
+	key := fmt.Sprintf("%v - %v", keyTokenRedisUserByCodeForgot, u.Forgot)
+	db.RemoveCacheRedisByKey(key)
 
 	return nil
 }
@@ -352,7 +355,7 @@ func (u *User) CreateUser() (int64, error) {
 func (u *User) GetOneUserByEmailAndCpf_Cpnj() error {
 
 	if user, err := getRedisCacheUserByEmailAndCpf_Cpnj(u); err == nil {
-		u = &user
+		u.Id = user.Id
 		return nil
 	}
 
@@ -367,17 +370,15 @@ func (u *User) GetOneUserByEmailAndCpf_Cpnj() error {
 	}
 
 	for user.Next() {
-		var id string
+		var id int64
 		_ = user.Scan(&id)
-		i64, _ := strconv.ParseInt(id, 10, 64)
-		u.Id = i64
+		if id != 0 {
+			u.Id = id
+		}
 	}
-
-	if u.Id == 0 {
-		return errors.New("Not found key")
+	if u.Id != 0 {
+		_ = setRedisCacheUserByEmailAndCpf_Cpnj(u)
 	}
-
-	_ = setRedisCacheUserByEmailAndCpf_Cpnj(u)
 
 	return nil
 }
@@ -418,7 +419,7 @@ func (u *User) GetByNameLike(name string, page, limit int64) ([]User, int64, err
 	for requestConfig.Next() {
 		var userGet User
 		var id, firstName, lastName, email, phone, business, cpfCnpj, permission string
-		err = requestConfig.Scan(&id, &firstName, &lastName, &email, &phone, &business, &cpfCnpj, &permission, &total)
+		_ = requestConfig.Scan(&id, &firstName, &lastName, &email, &phone, &business, &cpfCnpj, &permission, &total)
 		i64, _ := strconv.ParseInt(id, 10, 64)
 		userGet.Id = i64
 		userGet.FirstName = firstName

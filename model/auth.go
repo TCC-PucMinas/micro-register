@@ -2,9 +2,7 @@ package model
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
-	"strconv"
 	"time"
 
 	"github.com/TCC-PucMinas/micro-register/db"
@@ -12,6 +10,7 @@ import (
 
 var (
 	keyTokenRedisAuthByEmail = "key-user-auth-email"
+	keyTimeAuthenticate      = time.Hour * 1
 )
 
 type Authenticate struct {
@@ -31,9 +30,9 @@ func setRedisCacheAuthenticate(user User) error {
 	if err != nil {
 		return err
 	}
-	key := fmt.Sprintf("%v - %v", keyTokenRedisAuthByEmail, json)
+	key := fmt.Sprintf("%v - %v", keyTokenRedisAuthByEmail, user.Email)
 
-	return db.Set(key, json, 1*time.Hour).Err()
+	return db.Set(key, json, keyTimeAuthenticate).Err()
 }
 
 func getRedisCacheAuthenticate(email string) (User, error) {
@@ -79,23 +78,23 @@ func (auth *Authenticate) GetOneUserByEmail() (User, error) {
 	}
 
 	for requestConfig.Next() {
-		var id, firstName, lastName, email, phone, bussines, password string
+		var firstName, lastName, email, phone, bussines, password string
+		var id int64
 		_ = requestConfig.Scan(&id, &firstName, &lastName, &email, &phone, &bussines, &password)
-		i64, _ := strconv.ParseInt(id, 10, 64)
-		user.Id = i64
-		user.FirstName = firstName
-		user.LastName = lastName
-		user.Email = email
-		user.Phone = phone
-		user.Business = bussines
-		user.Password = password
+		if id != 0 {
+			user.Id = id
+			user.FirstName = firstName
+			user.LastName = lastName
+			user.Email = email
+			user.Phone = phone
+			user.Business = bussines
+			user.Password = password
+		}
 	}
 
-	if user.Id == 0 {
-		return user, errors.New("User not found!")
+	if user.Id != 0 {
+		_ = setRedisCacheAuthenticate(user)
 	}
-
-	_ = setRedisCacheAuthenticate(user)
 
 	return user, nil
 }
