@@ -1,23 +1,17 @@
 package model
 
 import (
-	"encoding/json"
 	"fmt"
-	"strconv"
-	"time"
 
 	"github.com/TCC-PucMinas/micro-register/helpers"
 
 	"github.com/TCC-PucMinas/micro-register/db"
 )
 
-var (
-	keyTokenRedisUserByCodeForgot       = "key-user-by-forgot-code"
-	keyTokenRedisUserByCodeActive       = "key-user-by-active-code"
-	keyTokenRedisUserByEmailAndCpf_Cpnj = "key-user-by-email-and-cpf_cnpj"
-	keyUserRedisGetByNameAndPage        = "key-user-by-name-and-page"
-	keyTimeUser                         = time.Hour * 1
-)
+type UsersPaginate struct {
+	Users []User `json:"users"`
+	Total int64  `json:"total"`
+}
 
 type User struct {
 	Id         int64      `json:"id"`
@@ -35,53 +29,7 @@ type User struct {
 	Permission Permission `json:"permission"`
 }
 
-func setRedisCacheUserByForgotCode(user *User) error {
-	redis, err := db.ConnectDatabaseRedis()
-
-	if err != nil {
-		return err
-	}
-
-	marshal, err := json.Marshal(user)
-
-	if err != nil {
-		return err
-	}
-	key := fmt.Sprintf("%v - %v", keyTokenRedisUserByCodeForgot, user.Forgot)
-
-	return redis.Set(key, marshal, keyTimeUser).Err()
-}
-
-func getRedisCacheUserByForgotCode(forgot string) (User, error) {
-	user := User{}
-
-	redis, err := db.ConnectDatabaseRedis()
-
-	if err != nil {
-		return user, err
-	}
-
-	key := fmt.Sprintf("%v - %v", keyTokenRedisUserByCodeForgot, forgot)
-
-	value, err := redis.Get(key).Result()
-
-	if err != nil {
-		return user, err
-	}
-
-	if err := json.Unmarshal([]byte(value), &user); err != nil {
-		return user, err
-	}
-
-	return user, nil
-}
-
 func (u *User) GetOneUserByForgotCode() error {
-
-	if user, err := getRedisCacheUserByForgotCode(u.Forgot); err == nil {
-		u.Id = user.Id
-		return nil
-	}
 
 	sql := db.ConnectDatabase()
 
@@ -100,10 +48,6 @@ func (u *User) GetOneUserByForgotCode() error {
 			u.Id = id
 		}
 
-	}
-
-	if u.Id != 0 {
-		_ = setRedisCacheUserByForgotCode(u)
 	}
 
 	return nil
@@ -129,136 +73,7 @@ func (u *User) UpdateUserForgotById() (bool, error) {
 	return true, nil
 }
 
-func setRedisCacheUserByCodeActive(user *User) error {
-	redis, err := db.ConnectDatabaseRedis()
-
-	if err != nil {
-		return err
-	}
-
-	marshal, err := json.Marshal(user)
-
-	if err != nil {
-		return err
-	}
-	key := fmt.Sprintf("%v - %v - %v", keyTokenRedisUserByCodeActive, user.CodeActive, user.Active)
-
-	return redis.Set(key, marshal, keyTimeUser).Err()
-}
-
-func getRedisCacheUserByCodeActive(u *User) (User, error) {
-	user := User{}
-
-	redis, err := db.ConnectDatabaseRedis()
-
-	if err != nil {
-		return user, err
-	}
-
-	key := fmt.Sprintf("%v - %v - %v", keyTokenRedisUserByCodeActive, u.CodeActive, u.Active)
-
-	value, err := redis.Get(key).Result()
-
-	if err != nil {
-		return user, err
-	}
-
-	if err := json.Unmarshal([]byte(value), &user); err != nil {
-		return user, err
-	}
-
-	return user, nil
-}
-
-func setRedisCacheUserByEmailAndCpf_Cpnj(user *User) error {
-	redis, err := db.ConnectDatabaseRedis()
-
-	if err != nil {
-		return err
-	}
-	marshal, err := json.Marshal(user)
-
-	if err != nil {
-		return err
-	}
-
-	key := fmt.Sprintf("%v - %v - %v", keyTokenRedisUserByEmailAndCpf_Cpnj, user.Email, user.CpfCnpj)
-
-	return redis.Set(key, marshal, keyTimeUser).Err()
-}
-
-func getRedisCacheUserByEmailAndCpf_Cpnj(u *User) (User, error) {
-	user := User{}
-
-	redis, err := db.ConnectDatabaseRedis()
-
-	if err != nil {
-		return user, err
-	}
-
-	key := fmt.Sprintf("%v - %v - %v", keyTokenRedisUserByEmailAndCpf_Cpnj, u.Email, u.CpfCnpj)
-
-	value, err := redis.Get(key).Result()
-
-	if err != nil {
-		return user, err
-	}
-
-	if err := json.Unmarshal([]byte(value), &user); err != nil {
-		return user, err
-	}
-
-	return user, nil
-}
-
-func getClientRedisCacheGetByNameLike(name string, page, limit int64) ([]User, error) {
-	var users []User
-
-	redis, err := db.ConnectDatabaseRedis()
-
-	if err != nil {
-		return users, err
-	}
-
-	key := fmt.Sprintf("%v - %v - %v - %v", keyUserRedisGetByNameAndPage, name, page, limit)
-
-	value, err := redis.Get(key).Result()
-
-	if err != nil {
-		return users, err
-	}
-
-	if err := json.Unmarshal([]byte(value), &users); err != nil {
-		return users, err
-	}
-
-	return users, nil
-}
-
-func setRedisCacheClientGetByName(name string, page, limit int64, clients []User) error {
-	redis, err := db.ConnectDatabaseRedis()
-
-	if err != nil {
-		return err
-	}
-
-	marshal, err := json.Marshal(clients)
-
-	if err != nil {
-		return err
-	}
-
-	key := fmt.Sprintf("%v - %v - %v - %v", keyUserRedisGetByNameAndPage, name, page, limit)
-
-	return redis.Set(key, marshal, keyTimeUser).Err()
-}
-
 func (u *User) GetOneUserByCodeActive() error {
-
-	if user, err := getRedisCacheUserByCodeActive(u); err == nil {
-		u.Id = user.Id
-		return nil
-	}
 
 	sql := db.ConnectDatabase()
 
@@ -276,10 +91,6 @@ func (u *User) GetOneUserByCodeActive() error {
 		if id != 0 {
 			u.Id = id
 		}
-	}
-
-	if u.Id != 0 {
-		_ = setRedisCacheUserByCodeActive(u)
 	}
 
 	return nil
@@ -302,10 +113,6 @@ func (u *User) UpdateUserSetActiveUser() error {
 		return e
 	}
 
-	key := fmt.Sprintf("%v - %v - %v", keyTokenRedisUserByCodeActive, u.CodeActive, 0)
-
-	db.RemoveCacheRedisByKey(key)
-
 	return nil
 }
 
@@ -325,9 +132,6 @@ func (u *User) UpdateUserSetNewPasswordByForgot() error {
 	if e != nil {
 		return e
 	}
-
-	key := fmt.Sprintf("%v - %v", keyTokenRedisUserByCodeForgot, u.Forgot)
-	db.RemoveCacheRedisByKey(key)
 
 	return nil
 }
@@ -354,11 +158,6 @@ func (u *User) CreateUser() (int64, error) {
 
 func (u *User) GetOneUserByEmailAndCpf_Cpnj() error {
 
-	if user, err := getRedisCacheUserByEmailAndCpf_Cpnj(u); err == nil {
-		u.Id = user.Id
-		return nil
-	}
-
 	sql := db.ConnectDatabase()
 
 	query := `select id from users where email = ? or cpf_cnpj = ? limit 1;`
@@ -376,26 +175,16 @@ func (u *User) GetOneUserByEmailAndCpf_Cpnj() error {
 			u.Id = id
 		}
 	}
-	if u.Id != 0 {
-		_ = setRedisCacheUserByEmailAndCpf_Cpnj(u)
-	}
 
 	return nil
 }
 
-func (u *User) GetByNameLike(name string, page, limit int64) ([]User, int64, error) {
-	var userArray []User
-	var total int64
-
-	if c, err := getClientRedisCacheGetByNameLike(name, page, limit); err == nil {
-		userArray = c
-		return userArray, total, nil
-	}
+func (u *User) GetByNameLike(name string, page, limit int64) (UsersPaginate, error) {
+	var userArray UsersPaginate
 
 	sql := db.ConnectDatabase()
 
 	name = "%" + name + "%"
-
 	paginate := helpers.Paginate{
 		Page:  page,
 		Limit: limit,
@@ -413,27 +202,28 @@ func (u *User) GetByNameLike(name string, page, limit int64) ([]User, int64, err
 	requestConfig, err := sql.Query(query, name, name, paginate.Limit, paginate.Page)
 
 	if err != nil {
-		return userArray, total, err
+		return userArray, err
 	}
 
 	for requestConfig.Next() {
 		var userGet User
-		var id, firstName, lastName, email, phone, business, cpfCnpj, permission string
+		var id int64
+		var total int64
+		var firstName, lastName, email, phone, business, cpfCnpj, permission string
 		_ = requestConfig.Scan(&id, &firstName, &lastName, &email, &phone, &business, &cpfCnpj, &permission, &total)
-		i64, _ := strconv.ParseInt(id, 10, 64)
-		userGet.Id = i64
-		userGet.FirstName = firstName
-		userGet.LastName = lastName
-		userGet.Email = email
-		userGet.Phone = phone
-		userGet.Business = business
-		userGet.CpfCnpj = cpfCnpj
-		userGet.Permission.Name = permission
-
-		userArray = append(userArray, userGet)
+		if id != 0 {
+			userGet.Id = id
+			userGet.FirstName = firstName
+			userGet.LastName = lastName
+			userGet.Email = email
+			userGet.Phone = phone
+			userGet.Business = business
+			userGet.CpfCnpj = cpfCnpj
+			userGet.Permission.Name = permission
+			userArray.Total = total
+			userArray.Users = append(userArray.Users, userGet)
+		}
 	}
 
-	_ = setRedisCacheClientGetByName(name, page, limit, userArray)
-
-	return userArray, total, nil
+	return userArray, nil
 }

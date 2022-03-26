@@ -1,16 +1,7 @@
 package model
 
 import (
-	"encoding/json"
-	"fmt"
-	"time"
-
 	"github.com/TCC-PucMinas/micro-register/db"
-)
-
-var (
-	keyTokenRedisRouteByPathAndUserId = "key-route-path-and-by-user-id"
-	keyTimeRoute                      = time.Hour * 1
 )
 
 type Route struct {
@@ -20,55 +11,7 @@ type Route struct {
 	Permission Permission `json:"permission"`
 }
 
-func setRedisCacheRouteByPathAndUserId(userId string, route *Route) error {
-	db, err := db.ConnectDatabaseRedis()
-
-	if err != nil {
-		return err
-	}
-
-	json, err := json.Marshal(route)
-
-	if err != nil {
-		return err
-	}
-	key := fmt.Sprintf("%v - %v", keyTokenRedisRouteByPathAndUserId, userId)
-
-	return db.Set(key, json, keyTimeRoute).Err()
-}
-
-func getRedisCacheRouteByPathAndUserId(userId string) (Route, error) {
-	route := Route{}
-
-	redis, err := db.ConnectDatabaseRedis()
-
-	if err != nil {
-		return route, err
-	}
-
-	key := fmt.Sprintf("%v - %v", keyTokenRedisRouteByPathAndUserId, userId)
-
-	value, err := redis.Get(key).Result()
-
-	if err != nil {
-		return route, err
-	}
-
-	if err := json.Unmarshal([]byte(value), &route); err != nil {
-		return route, err
-	}
-
-	return route, nil
-}
-
 func (r *Route) GetOneRouteByPathAndUserId(id string) error {
-
-	if route, err := getRedisCacheRouteByPathAndUserId(id); err == nil {
-		r.Id = route.Id
-		r.Method = route.Method
-		r.Path = route.Path
-		return nil
-	}
 
 	sql := db.ConnectDatabase()
 
@@ -93,10 +36,5 @@ func (r *Route) GetOneRouteByPathAndUserId(id string) error {
 			r.Method = method
 		}
 	}
-
-	if r.Id != 0 {
-		_ = setRedisCacheRouteByPathAndUserId(id, r)
-	}
-
 	return nil
 }

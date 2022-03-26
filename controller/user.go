@@ -12,9 +12,7 @@ import (
 
 var senderNatsActiveCode = "email.user.active"
 
-type UserCommunicate struct {
-	communicate.UserCommunicateServer
-}
+type UserCommunicate struct{}
 
 func (s *UserCommunicate) CreateUser(ctx context.Context, request *communicate.CreateUserRequest) (*communicate.CreateUserResponse, error) {
 	res := &communicate.CreateUserResponse{}
@@ -44,6 +42,7 @@ func (s *UserCommunicate) CreateUser(ctx context.Context, request *communicate.C
 	user.CodeActive = codeActive
 	user.Active = 0
 
+	// criar o vinculo de usuário com permissão
 	idUser, err := user.CreateUser()
 	if err != nil {
 		return res, err
@@ -153,14 +152,15 @@ func (s *UserCommunicate) ListAllUserPaginateByName(ctx context.Context, request
 
 	user := model.User{}
 
-	users, total, err := user.GetByNameLike(request.Name, request.Page, request.Limit)
+	dataUser, err := user.GetByNameLike(request.Name, request.Page, request.Limit)
 
 	if err != nil {
 		return res, err
 	}
 
 	data := &communicate.Data{}
-	for _, c := range users {
+
+	for _, c := range dataUser.Users {
 		user := &communicate.User{}
 		user.Id = c.Id
 		user.FirstName = c.FirstName
@@ -169,11 +169,10 @@ func (s *UserCommunicate) ListAllUserPaginateByName(ctx context.Context, request
 		user.Phone = c.Phone
 		user.Business = c.Business
 		user.CpfCnpj = c.CpfCnpj
-		user.Permission = c.Permission.Name
 		data.Users = append(data.Users, user)
 	}
 
-	res.Total = total
+	res.Total = dataUser.Total
 	res.Page = request.Page
 	res.Limit = request.Limit
 
