@@ -13,7 +13,7 @@ var (
 	hmacSecret      = []byte("e6428fcb1ea69f53bec5a2b4b817937b75db71d23207c6a6fb4b5cd2c9b9b43f") //os.Getenv("HMAC_SECRET") //
 )
 
-var timeToken = 30
+var TimeToken = 30
 var timeRefresh = 1000
 
 type Claims struct {
@@ -47,17 +47,18 @@ func tokenHash(claims Claims) (string, error) {
 }
 
 func GenerateJwt(id string) (JwtTokens, error) {
-	claims := &Claims{}
+	claimsToken := &Claims{}
+	claimsRefresh := &Claims{}
 	jwtToken := JwtTokens{}
-	claims.GenerateClains(id, 0, int64(timeToken))
-	accessToken, err := tokenHash(*claims)
+	claimsToken.GenerateClains(id, 0, int64(TimeToken))
+	accessToken, err := tokenHash(*claimsToken)
 
 	if err != nil {
 		return jwtToken, err
 	}
 
-	claims.GenerateClains(id, 1, int64(timeRefresh))
-	refreshToken, er := tokenHash(*claims)
+	claimsRefresh.GenerateClains(id, 1, int64(timeRefresh))
+	refreshToken, er := tokenHash(*claimsRefresh)
 
 	if er != nil {
 		return jwtToken, er
@@ -81,6 +82,7 @@ func CheckJwt(jwtUser string, sub int) (bool, error) {
 		if ok && errors.Is(verr.Inner, ErrExpiredToken) {
 			return false, ErrExpiredToken
 		}
+
 		return false, ErrInvalidToken
 	}
 

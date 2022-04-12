@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"strconv"
+	"time"
 
 	"github.com/TCC-PucMinas/micro-register/communicate"
 	"github.com/TCC-PucMinas/micro-register/helpers"
@@ -72,6 +73,7 @@ func (s *AuthenticateServer) Authenticate(ctx context.Context, request *communic
 	}
 
 	res.UserResponse = userResponse
+	res.Expired = time.Now().Add(time.Minute * time.Duration(helpers.TimeToken)).Unix()
 	return res, nil
 }
 
@@ -105,10 +107,6 @@ func (s *AuthenticateServer) RefreshToken(ctx context.Context, request *communic
 		return res, errors.New("Refresh token invalid!")
 	}
 
-	if validate, err := helpers.CheckJwt(request.AccessToken, 0); !validate || (err != nil) {
-		return res, errors.New("Accesss token invalid!")
-	}
-
 	claim, err := helpers.ExtractJwt(request.RefreshToken)
 
 	if err != nil {
@@ -121,6 +119,8 @@ func (s *AuthenticateServer) RefreshToken(ctx context.Context, request *communic
 		res.AccessToken = jwt.AccessToken
 		res.RefreshToken = jwt.RefreshToken
 	}
+
+	res.Expired = time.Now().Add(time.Minute * time.Duration(helpers.TimeToken)).Unix()
 	return res, nil
 }
 

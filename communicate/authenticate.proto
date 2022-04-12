@@ -23,17 +23,18 @@ message UserResponse {
 message AuthenticateValidateResponse {
   string access_token = 1;
   string refresh_token = 2;
-  UserResponse UserResponse = 3;
+  int64 expired = 3;
+  UserResponse UserResponse = 4;
 }
 
 message RefreshRequest {
-  string access_token = 1;
-  string refresh_token = 2;
+  string refresh_token = 1;
 }
 
 message RefreshResponse {
   string access_token = 1;
   string refresh_token = 2;
+  int64 expired = 3;
 }
 message TokenRequest {
   string access_token = 1;

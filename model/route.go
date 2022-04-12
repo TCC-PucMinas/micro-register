@@ -15,7 +15,7 @@ func (r *Route) GetOneRouteByPathAndUserId(id string) error {
 
 	sql := db.ConnectDatabase()
 
-	query := `select r.id, r.path, r.method from routes as r
+	query := `select r.id, r.path, r.method from rout;es as r
 					join permissions as p on r.id_permission = p.id
 					join user_permissions as u on u.id_user = ?
 				where r.path = ? and r.method = ? limit 1;`
