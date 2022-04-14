@@ -1,9 +1,10 @@
 package service
 
 import (
+	"os"
+
 	"github.com/TCC-PucMinas/micro-register/helpers"
 	"github.com/nats-io/nats.go"
-	"os"
 )
 
 type Nats struct {
